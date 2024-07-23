@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB connection URL
-const databaseUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/deep_cafe';
+const databaseUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portal';
 
 // Connect to MongoDB
 mongoose.connect(databaseUrl, {

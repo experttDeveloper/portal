@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./config/db');
+const protectedRoute = require('./routes/protected');
+const userRouter = require('./routes/userRoute');
 
 const app = express();
 app.use(express.json());
@@ -8,14 +10,9 @@ app.use(cors());
 
 
 // Define API routes
-const todoRouter = require('./routes/todoRoute');
-app.use('/', todoRouter);
-
-const userRouter = require('./routes/userRoute');
 app.use('/', userRouter);
+app.use(protectedRoute);
 
-const dishRouter = require('./routes/dishRoute');
-app.use('/', dishRouter);
 
 
 // app listen port

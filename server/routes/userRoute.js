@@ -1,7 +1,10 @@
 // routes/products.js
 const express = require('express');
 const router = express.Router();
-const User = require('../model/user')
+const User = require('../model/user');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'brandclever_secret';
+
 
 // Genearate verification code
 
@@ -71,10 +74,17 @@ router.post('/api/user/login', async (req, res) => {
             return res.send({ message: 'User Not Exist' });
         } else {
             if (userModal.password !== formData.password) {
-                return res.send({ message: 'Wrong Password' });
+                return res.send(
+                    {
+                        status: false,
+                        message: 'Wrong Password'
+                    }
+                );
             } else {
-                return res.send({
+                const token = jwt.sign({ userId: userModal._id }, SECRET_KEY, { expiresIn: '1m' });
+                return res.status(200).send({
                     status: true,
+                    token,
                     data: userModal
                 })
             }
@@ -89,7 +99,7 @@ router.get('/api/users', async (req, res) => {
     try {
         const userData = await User.find();
         if (userData) {
-            return  {
+            return {
                 status: true,
                 result: userData
             }

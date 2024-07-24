@@ -71,7 +71,7 @@ router.post('/api/user/login', async (req, res) => {
         const formData = req.body;
         const userModal = await User.findOne({ email: formData.email });
         if (!userModal) {
-            return res.send({ message: 'User Not Exist' });
+            return res.send({ message: 'Invalid credential!' });
         } else {
             if (userModal.password !== formData.password) {
                 return res.send(
@@ -81,7 +81,7 @@ router.post('/api/user/login', async (req, res) => {
                     }
                 );
             } else {
-                const token = jwt.sign({ userId: userModal._id }, SECRET_KEY, { expiresIn: '1m' });
+                const token = jwt.sign({ userId: userModal._id, role: userModal.role }, SECRET_KEY, { expiresIn: '2h' });
                 return res.status(200).send({
                     status: true,
                     token,

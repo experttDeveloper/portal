@@ -1,37 +1,16 @@
-import { AppBar, CssBaseline, Toolbar, Typography } from '@mui/material';
+
 import React from 'react';
 import Header from './Header';
-// import Attendance from './Attendance';
-// import Payroll from './Payroll';
-// import Leaves from './Leaves';
-// import DailyAttendance from './DailyAttendance'; // New components
-// import MonthlyAttendance from './MonthlyAttendance'; // New components
-// import SalarySlips from './SalarySlips'; // New components
-// import PayrollReports from './PayrollReports'; // New components
-// import LeaveRequests from './LeaveRequests'; // New components
-// import LeaveBalances from './LeaveBalances'; // New components
+import Attandance from './Attendance'
+import Home from './Home';
 
-const Content = ({ selectedItem }) => {
+const Content = ({ selectedItem, onLogout }) => {
     const renderContent = () => {
         switch (selectedItem) {
+            case 'Home':
+                return <Home />;
             case 'DailyAttendance':
-                return "daily attandance";
-            // case 'Payroll':
-            //     return <Payroll />;
-            // case 'Leaves':
-            //     return <Leaves />;
-            // case 'DailyAttendance':
-            //     return <DailyAttendance />;
-            // case 'MonthlyAttendance':
-            //     return <MonthlyAttendance />;
-            // case 'SalarySlips':
-            //     return <SalarySlips />;
-            // case 'PayrollReports':
-            //     return <PayrollReports />;
-            // case 'LeaveRequests':
-            //     return <LeaveRequests />;
-            // case 'LeaveBalances':
-            //     return <LeaveBalances />;
+                return <Attandance />
             default:
                 return "test"; // Default content
         }
@@ -39,7 +18,7 @@ const Content = ({ selectedItem }) => {
 
     return (
         <>
-            <Header />
+            <Header onLogout={onLogout} />
             <div style={{ padding: 16 }}>
                 {renderContent()}
             </div>

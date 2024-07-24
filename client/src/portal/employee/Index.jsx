@@ -4,15 +4,15 @@ import Sidebar from './SideBar';
 import Content from './Content';
 
 
-const EmployeePortal = () => {
+const EmployeePortal = ({ onLogout }) => {
 
-    const [selectedItem, setSelectedItem] = useState('Attendance');
-    console.log("selectedItem", selectedItem)
+    const [selectedItem, setSelectedItem] = useState('Home');
     const [collapsed, setCollapsed] = useState(false);
 
     const toggleCollapse = () => {
         setCollapsed(!collapsed);
     };
+
 
     return (
         <div style={{ display: 'flex' }}>
@@ -25,7 +25,7 @@ const EmployeePortal = () => {
                 <Toolbar />
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
-                        <Content selectedItem={selectedItem} />
+                        <Content selectedItem={selectedItem} onLogout={onLogout} />
                     </Grid>
                 </Grid>
             </main>

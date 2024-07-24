@@ -6,9 +6,8 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
-const settings = ['My Profile', 'Settings', 'Pricing', 'FAQ', 'Logout'];
 
-export default function Header() {
+export default function Header({ onLogout }) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
@@ -18,6 +17,14 @@ export default function Header() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleLogout = () => {
+        try {
+            localStorage.removeItem("token");
+        } catch (error) {
+
+        }
+    }
 
     return (
         <AppBar position="static">
@@ -70,11 +77,11 @@ export default function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+
+                            <MenuItem>My Profile</MenuItem>
+                            <MenuItem>Setting</MenuItem>
+                            <MenuItem onClick={onLogout}>Log Out</MenuItem>
+
                         </Menu>
                     </Box>
                 </Toolbar>

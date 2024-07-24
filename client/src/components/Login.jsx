@@ -1,36 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Backdrop,
   Button,
   Checkbox,
+  CircularProgress,
   Container,
   TextField,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { loginUser } from "../service/user";
+import { toast } from "react-toastify";
 
 const CustomTextField = styled(TextField)({
   '& .MuiFilledInput-root': {
-    borderRadius: '12px', 
+    borderRadius: '12px',
   },
   '& .MuiFilledInput-root.Mui-focused': {
-    borderColor: 'green', 
+    borderColor: 'green',
   },
   '& .MuiFilledInput-underline:after': {
-    borderBottomColor: 'green', 
+    borderBottomColor: 'green',
   },
   '& .MuiInputLabel-root.Mui-focused': {
-    color: 'green', 
+    color: 'green',
   },
 });
 
 const CustomCheckbox = styled(Checkbox)({
-  color: 'white', 
+  color: 'white',
   '&.Mui-checked': {
-    color: '#4caf50', 
+    color: '#4caf50',
   },
 });
 
-export default function Login() {
+export default function Login({ onLoginSuccess }) {
+
+  const [isLoading, setIsLoading] = useState(false)
   const [formState, setFormState] = useState({
     email: "",
     password: "",
@@ -52,13 +58,31 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
       try {
-        console.log(formState);
+        setIsLoading(true)
+        const result = await loginUser(formState);
+        if (result.status) {
+          localStorage.setItem("token", result.token);
+          setFormState({
+            email: "",
+            password: ""
+          })
+          onLoginSuccess(result.data);
+          toast.success("Login successfully");
+          setIsLoading(false)
+          return
+        } else {
+          toast.error(result.message || "Invalid credential!")
+          setIsLoading(false)
+          return
+        }
+        setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        toast.error("Error in Loogin");
+        setIsLoading(false)
       }
     }
   };
@@ -90,53 +114,67 @@ export default function Login() {
   return (
     <div className="login_page_container_fluid">
       <Container className="main_container_login_page">
-          
-            <div className="formcontainer main_login_form_div">
-              <form onSubmit={handleSubmit}>
-              <div className="logo_sec">
+
+        <div className="formcontainer main_login_form_div">
+          <form onSubmit={handleSubmit}>
+            <div className="logo_sec">
               <img
                 src="/images/logo.png"
                 alt="logo"
               />
             </div>
-                <Typography variant="h6" className="welcome_heading">
-                  Welcome to Brandclever! <span className="hand_icn">👋🏻 </span>
-                </Typography>
-                <p className="please_sign_text">
-                  Please sign-in to your account and start the adventure
-                </p>
+            <Typography variant="h6" className="welcome_heading">
+              Welcome to Brandclever! <span className="hand_icn">👋🏻 </span>
+            </Typography>
+            <p className="please_sign_text">
+              Please sign-in to your account and start the adventure
+            </p>
 
-                <CustomTextField
-                  variant="filled"
-                  label="Email"
-                  name="email"
-                  fullWidth
-                  onChange={handleChange}
-                  error={!!errors.email}
-                  helperText={errors.email}
-                />
-                <br/> <br/>
-                <CustomTextField
-                  variant="filled"
-                  label="Password"
-                  name="password"
-                  type="password"
-                  fullWidth
-                  onChange={handleChange}
-                  error={!!errors.password}
-                  helperText={errors.password}
-                />
-                <div className="remember_me_main">
-                  <CustomCheckbox defaultChecked color="success"/>
-                  <p>Remember me</p>
-                </div>
-                <div className="login_btn">
-                <Button type="submit" variant="outlined">
-                  Login
-                </Button>
-                </div>
-              </form>
+            <CustomTextField
+              variant="filled"
+              label="Email"
+              name="email"
+              fullWidth
+              onChange={handleChange}
+              error={!!errors.email}
+              helperText={errors.email}
+              value={formState.email}
+            />
+            <br /> <br />
+            <CustomTextField
+              variant="filled"
+              label="Password"
+              name="password"
+              type="password"
+              fullWidth
+              onChange={handleChange}
+              error={!!errors.password}
+              helperText={errors.password}
+              value={formState.password}
+            />
+            <div className="remember_me_main">
+              <CustomCheckbox defaultChecked color="success" />
+              <p>Remember me</p>
             </div>
+            <div className="login_btn">
+              {
+                isLoading ? (
+                  <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={isLoading}
+                  >
+                    <CircularProgress color="inherit" />
+                  </Backdrop>
+                ) : (
+
+                  <Button type="submit" variant="outlined">
+                    Login
+                  </Button>
+                )
+              }
+            </div>
+          </form>
+        </div>
       </Container>
     </div>
   );

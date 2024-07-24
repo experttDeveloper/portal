@@ -44,7 +44,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                     </ListItemIcon>
                     {!collapsed && <ListItemText primary="Home" />}
                 </ListItem>
-                <ListItem className="attendancesidebar" button onClick={() => {handleClickAttendance(); }}>
+                <ListItem  button onClick={() => {handleClickAttendance(); }}>
                     <ListItemIcon>
                         <Event />
                     </ListItemIcon>

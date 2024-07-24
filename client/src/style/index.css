@@ -1,128 +1,139 @@
 /* login page css start here */
-body{
-    padding: 0px;
-    margin: 0px;
+body {
+  padding: 0px;
+  margin: 0px;
 }
 
 .welcome_heading {
-    margin: 0;
-    font-weight: 500;
-    color: #ffffff;
-    font-size: 1.5rem;
-    line-height: 1.58334;
+  margin: 0;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1.58334;
 }
+
 p.please_sign_text {
-    color: #ffffff;
-    font-size: 15px;
-    margin-top: -1px;
-    margin-bottom: 27px;
+  color: #ffffff;
+  font-size: 15px;
+  margin-top: -1px;
+  margin-bottom: 27px;
 }
+
 .formcontainer.main_login_form_div form {
-    box-shadow: 0px 0px 9px 1px #ffffff;
-    padding: 40px 30px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 360px;
-    z-index: 9999;
-    position: relative;
-    background: #0f202c;
+  box-shadow: 0px 0px 9px 1px #ffffff;
+  padding: 40px 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 360px;
+  z-index: 9999;
+  position: relative;
+  background: #0f202c;
 }
+
 .formcontainer.main_login_form_div input {
-    border-radius: 5px;
-    background: #fff !important;
+  border-radius: 5px;
+  background: #fff !important;
 }
+
 .main_container_login_page {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    flex-direction: column;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
 }
+
 .login_page_container_fluid {
-    background: #152733;
+  background: #152733;
 }
+
 .formcontainer.main_login_form_div button {
-    background: #ffffff;
-    color: #000;
-    padding: 6px 36px;
-    font-size: 14px;
-    margin: 0 auto;
-    font-weight: 600;
-    border: none !important;
+  background: #ffffff;
+  color: #000;
+  padding: 6px 36px;
+  font-size: 14px;
+  margin: 0 auto;
+  font-weight: 600;
+  border: none !important;
 }
+
 .remember_me_main {
-    display: flex;
-    gap: 3px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
+  display: flex;
+  gap: 3px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
 }
+
 .login_btn {
-    text-align: center;
-    margin-top: 10px;
+  text-align: center;
+  margin-top: 10px;
 }
+
 .formcontainer.main_login_form_div {
-    background-image: url(https://brandio.io/envato/iofrm/html/images/graphic3.svg);
-    width: 100% !important;
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-image: url(https://brandio.io/envato/iofrm/html/images/graphic3.svg);
+  width: 100% !important;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .logo_sec {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Custom CSS for the search bar */
 .search {
-    position: relative;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.15);
-    margin-right: 16px;
-    margin-left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
+  position: relative;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-right: 16px;
+  margin-left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.search-icon {
+  padding: 0 16px;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-root {
+  color: inherit;
+  width: 100%;
+}
+
+.input-input {
+  padding: 8px 8px 8px 0;
+  padding-left: calc(1em + 32px);
+  transition: width 300ms;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .search {
+    margin-left: 24px;
+    width: auto;
   }
-  
-  .search:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-  }
-  
-  .search-icon {
-    padding: 0 16px;
-    height: 100%;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .input-root {
-    color: inherit;
-    width: 100%;
-  }
-  
+
   .input-input {
-    padding: 8px 8px 8px 0;
-    padding-left: calc(1em + 32px);
-    transition: width 300ms;
-    width: 100%;
+    width: 20ch;
   }
-  
-  @media (min-width: 600px) {
-    .search {
-      margin-left: 24px;
-      width: auto;
-    }
-    .input-input {
-      width: 20ch;
-    }
-  }
-  
+}
+
 /* login page css end here  */
 
 
@@ -131,11 +142,16 @@ p.please_sign_text {
   background-color: #f4f5fa;
   color: #413a50;
 }
+
 .active {
   background: linear-gradient(45deg, #c2a6ff, #8d58ff);
+  background-color: #e4e5eb !important;
+  margin-top: 10px !important;
   border-top-right-radius: 25px !important;
   border-bottom-right-radius: 25px !important;
+  border-bottom: none !important;
 }
+
 .attendancesidebar {
   background-color: #e4e5eb !important;
   margin-top: 10px !important;
@@ -143,12 +159,7 @@ p.please_sign_text {
   border-bottom-right-radius: 25px !important;
   border-bottom: none !important;
 }
-.MuiListItem-button:hover{
-  background-color: #e4e5eb !important;
-  margin-top: 10px !important;
-  border-top-right-radius: 25px !important;
-  border-bottom-right-radius: 25px !important;
-  border-bottom: none !important;
 
-}
+
+
 /* dashboard css */

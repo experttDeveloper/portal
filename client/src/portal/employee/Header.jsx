@@ -27,8 +27,8 @@ export default function Header({ onLogout }) {
     }
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
+        <AppBar className="heder_none" position="static">
+            <Container className="top_header" maxWidth="xl">
                 <Toolbar disableGutters>
                     <div className="search">
                         <div className="search-icon">

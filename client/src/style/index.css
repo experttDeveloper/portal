@@ -75,4 +75,80 @@ p.please_sign_text {
     text-align: center;
     margin-bottom: 20px;
 }
+
+/* Custom CSS for the search bar */
+.search {
+    position: relative;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-right: 16px;
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  
+  .search-icon {
+    padding: 0 16px;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .input-root {
+    color: inherit;
+    width: 100%;
+  }
+  
+  .input-input {
+    padding: 8px 8px 8px 0;
+    padding-left: calc(1em + 32px);
+    transition: width 300ms;
+    width: 100%;
+  }
+  
+  @media (min-width: 600px) {
+    .search {
+      margin-left: 24px;
+      width: auto;
+    }
+    .input-input {
+      width: 20ch;
+    }
+  }
+  
 /* login page css end here  */
+
+
+/* dashboard css */
+.top_header {
+  background-color: #f4f5fa;
+  color: #413a50;
+}
+.active {
+  background: linear-gradient(45deg, #c2a6ff, #8d58ff);
+  border-top-right-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
+}
+.attendancesidebar {
+  background-color: #e4e5eb !important;
+  margin-top: 10px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
+  border-bottom: none !important;
+}
+.MuiListItem-button:hover{
+  background-color: #e4e5eb !important;
+  margin-top: 10px !important;
+  border-top-right-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
+  border-bottom: none !important;
+
+}
+/* dashboard css */

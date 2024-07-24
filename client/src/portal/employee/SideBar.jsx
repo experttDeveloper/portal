@@ -16,7 +16,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
     const handleClickLeaves = () => setOpenLeaves(!openLeaves);
 
     return (
-        <Box
+        <Box className="hover"
             sx={{
                 width: collapsed ? '80px' : '240px',
                 transition: 'width 0.3s',
@@ -35,7 +35,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
             >
                 {collapsed ? <ArrowForward /> : <ArrowBack />}
             </IconButton>
-            <List sx={{ marginTop: '50px' }}>
+            <List cl sx={{ marginTop: '50px' }}>
                 <ListItem button onClick={() => onSelect('Home')} 
                     className={selectedMenu==="Home" ? "active" :"inactive"}
                     >
@@ -44,7 +44,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                     </ListItemIcon>
                     {!collapsed && <ListItemText primary="Home" />}
                 </ListItem>
-                <ListItem button onClick={() => {handleClickAttendance(); }}>
+                <ListItem className="attendancesidebar" button onClick={() => {handleClickAttendance(); }}>
                     <ListItemIcon>
                         <Event />
                     </ListItemIcon>

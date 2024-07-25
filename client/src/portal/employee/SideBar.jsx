@@ -5,7 +5,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import AdjustIcon from '@mui/icons-material/Adjust';
 
 
-const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
+const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
 
     const [openAttendance, setOpenAttendance] = useState(false);
     const [openPayroll, setOpenPayroll] = useState(false);
@@ -16,7 +16,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
     const handleClickLeaves = () => setOpenLeaves(!openLeaves);
 
     return (
-        <Box className="hover"
+        <Box className="hover sidebarcomponent"
             sx={{
                 width: collapsed ? '80px' : '240px',
                 transition: 'width 0.3s',
@@ -36,15 +36,16 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                 {collapsed ? <ArrowForward /> : <ArrowBack />}
             </IconButton>
             <List cl sx={{ marginTop: '50px' }}>
-                <ListItem button onClick={() => onSelect('Home')} 
-                    className={selectedMenu==="Home" ? "active" :"inactive"}
-                    >
+                <ListItem button onClick={() => onSelect('Home')}
+                    className={selectedMenu === "Home" ? "active" : "inactive"}
+                >
                     <ListItemIcon>
                         <Home />
                     </ListItemIcon>
                     {!collapsed && <ListItemText primary="Home" />}
                 </ListItem>
-                <ListItem  button onClick={() => {handleClickAttendance(); }}>
+                <ListItem button onClick={() => { handleClickAttendance(); }}
+                >
                     <ListItemIcon>
                         <Event />
                     </ListItemIcon>
@@ -53,13 +54,15 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                 </ListItem>
                 <Collapse in={openAttendance} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('DailyAttendance')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('DailyAttendance')} className={selectedMenu === "DailyAttendance" ? "active" : "inactive"}>
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
                             {!collapsed && <ListItemText primary="Daily Attendance" />}
                         </ListItem>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('MonthlyAttendance')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('MonthlyAttendance')}
+                            className={selectedMenu === "MonthlyAttendance" ? "active" : "inactive"}
+                        >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
@@ -68,7 +71,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                     </List>
                 </Collapse>
                 <Divider />
-                <ListItem button onClick={() => { onSelect('Payroll'); handleClickPayroll(); }}>
+                <ListItem button onClick={() => { handleClickPayroll(); }}>
                     <ListItemIcon>
                         <AttachMoney />
                     </ListItemIcon>
@@ -77,13 +80,17 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                 </ListItem>
                 <Collapse in={openPayroll} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('SalarySlips')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('SalarySlips')}
+                            className={selectedMenu === "SalarySlips" ? "active" : "inactive"}
+                        >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
                             {!collapsed && <ListItemText primary="Salary Slips" />}
                         </ListItem>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('PayrollReports')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('PayrollReports')}
+                            className={selectedMenu === "PayrollReports" ? "active" : "inactive"}
+                        >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
@@ -92,7 +99,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                     </List>
                 </Collapse>
                 <Divider />
-                <ListItem button onClick={() => { onSelect('Leaves'); handleClickLeaves(); }}>
+                <ListItem button onClick={() => { handleClickLeaves(); }}>
                     <ListItemIcon>
                         <CalendarToday />
                     </ListItemIcon>
@@ -101,13 +108,17 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse,selectedMenu }) => {
                 </ListItem>
                 <Collapse in={openLeaves} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveRequests')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveRequests')}
+                            className={selectedMenu === "LeaveRequests" ? "active" : "inactive"}
+                        >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
                             {!collapsed && <ListItemText primary="Leave Requests" />}
                         </ListItem>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
+                            className={selectedMenu === "LeaveBalances" ? "active" : "inactive"}
+                        >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>

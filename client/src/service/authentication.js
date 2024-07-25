@@ -9,3 +9,4 @@ export const authenticatedUser = async () => {
         throw error;
     }
 };
+

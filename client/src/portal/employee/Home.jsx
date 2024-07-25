@@ -3,6 +3,8 @@ import moment from 'moment'
 import { authenticatedUser } from '../../service/authentication';
 import { Button, Container } from '@mui/material';
 import Countdown from 'react-countdown';
+import axios from 'axios';
+import { attendancePunchin, attendancePunchout } from '../../service/attendance';
 
 export default function Home() {
 
@@ -23,12 +25,15 @@ export default function Home() {
         },
     });
 
+
     const [countdownTime, setCountdownTime] = useState(null); // Timer countdown duration in milliseconds
 
-    // Function to handle punch-in
-    const handlePunchIn = () => {
+    const handlePunchIn = async () => {
+
+        const authenticated = await authenticatedUser();
+
         const currentTime = moment();
-        setFormData({
+        const newFormData = {
             ...formData,
             punchIn: {
                 date: currentTime.format('YYYY-MM-DD'),
@@ -44,13 +49,34 @@ export default function Home() {
                 hours: null,
                 minutes: null,
             },
+        };
+        setFormData({
+            ...formData,
+            punchIn: {
+                date: newFormData.punchIn.date,
+                day: newFormData.punchIn.day,
+                time: newFormData.punchIn.time,
+            }
         });
-        setCountdownTime(null); // Reset countdown time
-        startCountdown(); // Start the countdown
+
+        try {
+            const response = await attendancePunchin({
+                role: authenticated.user.role,
+                userId: authenticated.user.userId,
+                loginTime: newFormData.punchIn.time,
+                loginDay: newFormData.punchIn.day,
+                loginDate: newFormData.punchIn.date,
+            });
+            console.log("respose", response)
+
+        } catch (error) {
+            console.error('Error punching in:', error);
+
+        }
     };
 
     // Function to handle punch-out
-    const handlePunchOut = () => {
+    const handlePunchOut = async () => {
         const currentTime = moment();
         if (formData.punchIn.time) {
             const punchInTime = moment(formData.punchIn.date + ' ' + formData.punchIn.time, 'YYYY-MM-DD h:mm:ss a');
@@ -59,7 +85,7 @@ export default function Home() {
             const hours = Math.floor(duration.asHours());
             const minutes = duration.minutes();
 
-            setFormData({
+            const newFormData = {
                 ...formData,
                 punchOut: {
                     date: currentTime.format('YYYY-MM-DD'),
@@ -70,8 +96,33 @@ export default function Home() {
                     hours,
                     minutes,
                 },
+            };
+            setFormData({
+                ...formData,
+                punchOut: {
+                    date: newFormData.punchOut.date,
+                    day: newFormData.punchOut.day,
+                    time: newFormData.punchOut.time,
+                },
+                totalTime: {
+                    hours,
+                    minutes,
+                },
             });
-            setCountdownTime(null); // Reset countdown time
+
+            const authenticated = await authenticatedUser();
+            try {
+                const response = await attendancePunchout({
+                    userId: authenticated.user.userId,
+                    logoutTime: newFormData.punchOut.time,
+                    logoutDay: newFormData.punchOut.day,
+                    logoutDate: newFormData.punchOut.date,
+                });
+                console.log("respondeeepunchout", response)
+            } catch (error) {
+                console.error('Error punching out:', error);
+
+            }
         }
     };
 

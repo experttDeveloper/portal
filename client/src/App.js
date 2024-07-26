@@ -1,4 +1,5 @@
 import "../src/style/index.css";
+import "../src/style/responsive.css";
 import Login from "./components/Login";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -10,8 +11,6 @@ function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
-  console.log("user", user)
-  console.log("isAuthenticated", isAuthenticated)
 
 
   useEffect(() => {
@@ -19,7 +18,6 @@ function App() {
     (async () => {
       try {
         const res = await authenticatedUser();
-        console.log("auythene", res)
         if (res.status) {
           setIsAuthenticated(true);
           setUser(res.user);

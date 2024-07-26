@@ -19,7 +19,7 @@ const Content = ({ selectedItem, onLogout }) => {
     return (
         <>
             <Header onLogout={onLogout} />
-            <div style={{ padding: 16 }}>
+            <div className='content_rendor '>
                 {renderContent()}
             </div>
         </>

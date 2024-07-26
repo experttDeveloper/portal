@@ -18,26 +18,41 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
     return (
         <Box className="hover sidebarcomponent"
             sx={{
-                width: collapsed ? '80px' : '240px',
+                width: collapsed ? '100px' : '300px',
                 transition: 'width 0.3s',
                 backgroundColor: 'background.paper',
                 height: '100vh',
                 position: 'relative',
             }}
         >
-            <IconButton
-                onClick={toggleCollapse}
-                sx={{
-                    position: 'absolute',
-                    top: 16,
-                    right: collapsed ? 0 : -20,
-                }}
-            >
-                {collapsed ? <ArrowForward /> : <ArrowBack />}
-            </IconButton>
+            <div className='sidebar_hide_show'>
+                <div className='image_text'>
+                    <IconButton
+                        onClick={toggleCollapse}
+                        sx={{
+                            position: 'absolute',
+                            top: 16,
+                            right: collapsed ? 0 : 20,
+                        }}
+                        className='back_next_arrow'
+                    >
+                        {collapsed ? <ArrowForward /> : <ArrowBack />}
+                    </IconButton>
+                    {
+                        !collapsed ? (
+                            <>
+                                <img src='images/imagelogo.png' className='menubar_image' />
+                                <p>Brandclever</p>
+                            </>
+                        ) : (
+                            <img src='images/imagelogo.png' className='menubar_image' />
+                        )
+                    }
+                </div>
+            </div>
             <List cl sx={{ marginTop: '50px' }}>
                 <ListItem button onClick={() => onSelect('Home')}
-                    className={selectedMenu === "Home" ? "active" : "inactive"}
+                    className={selectedMenu === "Home" ? "active_sidebar_menu" : "inactive_sidebar"}
                 >
                     <ListItemIcon>
                         <Home />
@@ -54,14 +69,14 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                 </ListItem>
                 <Collapse in={openAttendance} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('DailyAttendance')} className={selectedMenu === "DailyAttendance" ? "active" : "inactive"}>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('DailyAttendance')} className={selectedMenu === "DailyAttendance" ? "active_sidebar_menu" : "inactive_sidebar"}>
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
                             {!collapsed && <ListItemText primary="Daily Attendance" />}
                         </ListItem>
                         <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('MonthlyAttendance')}
-                            className={selectedMenu === "MonthlyAttendance" ? "active" : "inactive"}
+                            className={selectedMenu === "MonthlyAttendance" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />
@@ -81,7 +96,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                 <Collapse in={openPayroll} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('SalarySlips')}
-                            className={selectedMenu === "SalarySlips" ? "active" : "inactive"}
+                            className={selectedMenu === "SalarySlips" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />
@@ -89,7 +104,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                             {!collapsed && <ListItemText primary="Salary Slips" />}
                         </ListItem>
                         <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('PayrollReports')}
-                            className={selectedMenu === "PayrollReports" ? "active" : "inactive"}
+                            className={selectedMenu === "PayrollReports" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />
@@ -109,7 +124,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                 <Collapse in={openLeaves} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveRequests')}
-                            className={selectedMenu === "LeaveRequests" ? "active" : "inactive"}
+                            className={selectedMenu === "LeaveRequests" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />
@@ -117,7 +132,7 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                             {!collapsed && <ListItemText primary="Leave Requests" />}
                         </ListItem>
                         <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
-                            className={selectedMenu === "LeaveBalances" ? "active" : "inactive"}
+                            className={selectedMenu === "LeaveBalances" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />

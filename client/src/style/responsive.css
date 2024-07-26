@@ -1,0 +1,12 @@
+
+
+@media (min-width: 600px) {
+    .search {
+      margin-left: 24px;
+      width: auto;
+    }
+  
+    .input-input {
+      width: 20ch;
+    }
+  }

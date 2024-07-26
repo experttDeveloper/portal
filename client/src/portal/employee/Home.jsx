@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment'
 import { authenticatedUser } from '../../service/authentication';
 import { Button, Container } from '@mui/material';
+import { attendancePunchin, attendancePunchout, fetchPunchInData, getAttendanceData } from '../../service/attendance';
 import Countdown from 'react-countdown';
-import axios from 'axios';
-import { attendancePunchin, attendancePunchout } from '../../service/attendance';
+import { toast } from 'react-toastify'
 
 export default function Home() {
+
+    const [isTimerRunning, setIsTimerRunning] = useState(false);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [totalHours, setTotalHours] = useState();
 
     const [formData, setFormData] = useState({
         punchIn: {
@@ -25,8 +30,55 @@ export default function Home() {
         },
     });
 
+    useEffect(() => {
+        (async () => {
+            setLoading(true);
+            const authenticated = await authenticatedUser();
+            const response = await getAttendanceData(authenticated.user.userId)
+            console.log("response", response)
 
-    const [countdownTime, setCountdownTime] = useState(null); // Timer countdown duration in milliseconds
+        })();
+    }, [loading])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const authenticated = await authenticatedUser();
+            try {
+                const response = await fetchPunchInData(authenticated.user.userId);
+                if (response.data) {
+                    const punchInDate = moment(`${response.data.punchInDate} ${response.data.punchInTime}`, 'YYYY-MM-DD h:mm:ss a');
+                    const now = moment();
+                    const timeDifference = now.diff(punchInDate, 'seconds');
+
+                    setFormData(prevState => ({
+                        ...prevState,
+                        punchIn: response.data
+                    }));
+                    setElapsedTime(timeDifference);
+                    setIsTimerRunning(true);
+                }
+            } catch (error) {
+                console.error('Error fetching punch-in data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Timer effect
+    useEffect(() => {
+        let interval;
+        if (isTimerRunning) {
+            interval = setInterval(() => {
+                setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
+            }, 1000);
+        } else if (!isTimerRunning && elapsedTime !== 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isTimerRunning, elapsedTime]);
+
+
 
     const handlePunchIn = async () => {
 
@@ -50,14 +102,7 @@ export default function Home() {
                 minutes: null,
             },
         };
-        setFormData({
-            ...formData,
-            punchIn: {
-                date: newFormData.punchIn.date,
-                day: newFormData.punchIn.day,
-                time: newFormData.punchIn.time,
-            }
-        });
+        setFormData(newFormData);
 
         try {
             const response = await attendancePunchin({
@@ -67,9 +112,18 @@ export default function Home() {
                 loginDay: newFormData.punchIn.day,
                 loginDate: newFormData.punchIn.date,
             });
-            console.log("respose", response)
+            if (response.status) {
+                toast.success(response.message)
+                setElapsedTime(0);
+                setIsTimerRunning(true);
+                return
+            } else {
+                toast.error(response.message)
+                return
+            }
 
         } catch (error) {
+            toast.error(error)
             console.error('Error punching in:', error);
 
         }
@@ -78,7 +132,7 @@ export default function Home() {
     // Function to handle punch-out
     const handlePunchOut = async () => {
         const currentTime = moment();
-        if (formData.punchIn.time) {
+        if (formData.punchIn.punchInTime || formData.punchIn.time) {
             const punchInTime = moment(formData.punchIn.date + ' ' + formData.punchIn.time, 'YYYY-MM-DD h:mm:ss a');
             const timeDifference = currentTime.diff(punchInTime);
             const duration = moment.duration(timeDifference);
@@ -118,28 +172,51 @@ export default function Home() {
                     logoutDay: newFormData.punchOut.day,
                     logoutDate: newFormData.punchOut.date,
                 });
-                console.log("respondeeepunchout", response)
+                if (response.status) {
+                    toast.success(response.message)
+                    setIsTimerRunning(false);
+                    setLoading(false)
+                    return
+                } else {
+                    toast.error(response.message);
+                    return
+                }
+
             } catch (error) {
+                toast.error("Something went wrong!")
                 console.error('Error punching out:', error);
 
             }
         }
     };
 
-    // Function to start the countdown
-    const startCountdown = () => {
-        const endTime = moment().add(1, 'hour'); // Set duration (e.g., 1 hour) for the countdown
-        setCountdownTime(endTime.diff(moment())); // Calculate duration from now to end time
+    const formatElapsedTime = (elapsedTime) => {
+        const hours = Math.floor(elapsedTime / 3600);
+        const minutes = Math.floor((elapsedTime % 3600) / 60);
+        const seconds = elapsedTime % 60;
+        return `
+            <span class="time-part"><span class="count_text">${hours < 10 ? "0" : ""}${hours}</span> <span class="label">Hours</span></span >
+            <span class="time-part "><span class="count_text">${minutes < 10 ? "0" : ""}${minutes}</span> <span class="label">Mins</span></span>
+            <span class="time-part"><span class="count_text">${seconds < 10 ? "0" : ""}${seconds}</span> <span class="label">Secs</span></span>
+    `;
     };
 
     return (
-        <div>
+        <div className='attendance_component'>
             <Container>
-                <h1>Attendance System</h1>
-                <Button onClick={handlePunchIn} variant="contained">Punch In</Button>
-                <Button onClick={handlePunchOut} variant="contained">Punch Out</Button>
-
-                {formData.punchIn.time && (
+                <div className='attendanve_main_sec'>
+                    <h1 className='top_main_heading'>Attendance Monitor</h1>
+                    <div className='punch_in_punchout'>
+                        <Button onClick={handlePunchIn} variant="contained">Punch In</Button>
+                        <Button onClick={handlePunchOut} variant="contained">Punch Out</Button>
+                    </div>
+                </div>
+                <div className='timer_sec'>
+                    <p>
+                        <span className='elapsed_time' dangerouslySetInnerHTML={{ __html: formatElapsedTime(elapsedTime) }}></span>
+                    </p>
+                </div>
+                {/* {formData.punchIn.time && (
                     <div>
                         <p>Punch In Date: {formData.punchIn.date}</p>
                         <p>Punch In Day: {formData.punchIn.day}</p>
@@ -152,29 +229,8 @@ export default function Home() {
                         <p>Punch Out Day: {formData.punchOut.day}</p>
                         <p>Punch Out Time: {formData.punchOut.time}</p>
                     </div>
-                )}
-                {formData.totalTime.hours !== null && (
-                    <p>Total Time: {formData.totalTime.hours} hours and {formData.totalTime.minutes} minutes</p>
-                )}
-                {/* {countdownTime !== null && (
-                    <div>
-                        <Countdown
-                            date={moment().add(countdownTime, 'milliseconds').toDate()}
-                            renderer={({ hours, minutes, seconds, completed }) => (
-                                <div>
-                                    {completed ? (
-                                        <span>Timer Ended</span>
-                                    ) : (
-                                        <span>
-                                            {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:
-                                            {String(seconds).padStart(2, '0')}
-                                        </span>
-                                    )}
-                                </div>
-                            )}
-                        />
-                    </div>
                 )} */}
+
             </Container>
         </div>
     )

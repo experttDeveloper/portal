@@ -3,7 +3,6 @@ const router = express.Router();
 const Attendance = require('../model/attendance');
 const moment = require('moment');
 
-
 const calculateTotalTime = (sessions) => {
     let totalHours = 0;
     let totalMinutes = 0;
@@ -25,14 +24,21 @@ const calculateTotalTime = (sessions) => {
     return `${totalHours}:${totalMinutes}`;
 }
 
-
 // Punch In
 router.post('/api/user/attendance/punchin', async (req, res) => {
     try {
         const { userId, role, loginTime, loginDate, loginDay } = req.body;
         let attendance = await Attendance.findOne({ userId, date: loginDate });
 
-        if (!attendance) {
+        if (attendance) {
+            const activeSession = attendance.sessions.find(session => !session.punchOutTime);
+            if (activeSession) {
+                return res.send({
+                    status: false,
+                    message: "Already punched in"
+                });
+            }
+        } else {
             attendance = new Attendance({ userId, role, date: loginDate, sessions: [] });
         }
 
@@ -84,7 +90,7 @@ router.post('/api/user/attendance/punchout', async (req, res) => {
                     data: attendance
                 });
             } else {
-                res.status(400).send({
+                res.send({
                     status: false,
                     message: "No active punch in session found"
                 });
@@ -100,6 +106,65 @@ router.post('/api/user/attendance/punchout', async (req, res) => {
         res.status(500).send({
             status: false,
             message: "Error punching out"
+        });
+    }
+});
+
+router.get('/api/user/attendance/punchin/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const attendance = await Attendance.findOne({ userId }).sort({ date: -1 }).limit(1);
+
+        if (attendance) {
+            const latestSession = attendance.sessions.find(session => !session.punchOutTime);
+            res.send({
+                status: true,
+                data: latestSession ? latestSession : null,
+            });
+        } else {
+            res.send({
+                status: true,
+                data: null
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching punch-in data:", error);
+        res.status(500).send({
+            status: false,
+            message: "Error fetching punch-in data"
+        });
+    }
+});
+
+
+router.get('/api/user/attendance/list/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const attendances = await Attendance.find({ userId }).sort({ date: 1 });
+
+        if (attendances && attendances.length > 0) {
+            const formattedData = attendances.map(attendance => ({
+                date: attendance.date,
+                day: moment(attendance.date, 'YYYY-MM-DD').format('dddd'),
+                totalHours: attendance.totalHours,
+                sessions: attendance.sessions
+            }));
+
+            res.send({
+                status: true,
+                data: formattedData
+            });
+        } else {
+            res.send({
+                status: true,
+                data: []
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching attendance list:", error);
+        res.status(500).send({
+            status: false,
+            message: "Error fetching attendance list"
         });
     }
 });

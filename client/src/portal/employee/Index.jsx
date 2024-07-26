@@ -15,14 +15,13 @@ const EmployeePortal = ({ onLogout }) => {
 
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div className='sidebar_content'>
             <Sidebar onSelect={setSelectedItem} collapsed={collapsed} toggleCollapse={toggleCollapse} selectedMenu={selectedItem} />
             <main style={{
                 flexGrow: 1,
                 marginLeft: collapsed ? 80 : 0,
                 transition: 'margin 0.3s'
             }}>
-                <Toolbar />
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Content selectedItem={selectedItem} onLogout={onLogout} />

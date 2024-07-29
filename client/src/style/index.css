@@ -131,6 +131,7 @@ p.please_sign_text {
   background-color: #f4f5fa;
   color: #413a50;
 }
+
 .active_sidebar_menu {
   border-top-right-radius: 25px !important;
   border-bottom-right-radius: 25px !important;
@@ -146,11 +147,13 @@ p.please_sign_text {
   border-bottom-right-radius: 25px !important;
   border-bottom: none !important;
 }
+
 .hover.sidebarcomponent {
   background: #f4f5fa;
   padding: 0px 20px 0px 0px;
-  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
+
 .image_text p {
   padding: 0px;
   margin: 0px;
@@ -159,20 +162,24 @@ p.please_sign_text {
   font-weight: 600;
   text-transform: uppercase;
 }
+
 .image_text {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 0px 0px 10px;
 }
+
 .sidebar_content {
   display: flex;
   background: #f4f5fa;
 }
+
 .sidebar_content .hover.sidebarcomponent ul {
   margin: 0px;
   padding-top: 20px;
 }
+
 .attendanve_main_sec {
   display: flex;
   justify-content: space-between;
@@ -191,6 +198,7 @@ p.please_sign_text {
   display: flex;
   gap: 20px;
 }
+
 .timer_sec p {
   padding: 0;
   margin: 0;
@@ -200,6 +208,7 @@ p.please_sign_text {
   width: 100%;
   max-width: 100%;
 }
+
 .timer_sec {
   display: flex;
   align-items: center;
@@ -212,9 +221,11 @@ p.please_sign_text {
   max-width: 340px;
   margin-top: 100px;
 }
+
 span.elapsed_time {
   display: flex;
 }
+
 .punch_in_punchout button:hover {
   background: linear-gradient(to right, #afe55a, #21995d) !important;
 }
@@ -225,6 +236,7 @@ span.time-part.hours {
   display: flex;
   flex-direction: column;
 }
+
 span.elapsed_time {
   display: flex;
   gap: 15px;
@@ -232,18 +244,21 @@ span.elapsed_time {
   align-items: center;
   justify-content: center;
 }
+
 span.count_text {
   color: #fff;
   background: linear-gradient(to right, #afe55a, #21995d);
   padding: 10px 20px;
   border-radius: 5px;
 }
+
 span.label {
   color: #000;
-  font-size: 20px;
+  font-size: 17px;
   text-transform: uppercase;
   font-weight: 700;
 }
+
 .punch_in_punchout button {
   font-size: 14px;
   font-weight: 700;
@@ -252,4 +267,33 @@ span.label {
   margin: 0;
   border-radius: 4px !important;
   height: 42px;
+}
+
+p.total_hoirs {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: black;
+}
+.attendance_record {
+  padding-top: 24px;
+}
+.attendance_record h1.content_title {
+  margin: 0;
+  padding: 30px 0px 0px 10px;
+  font-size: 25px;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+}
+.attendance_record .table_record th {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 13px 5px 13px 14px;
+  background: #f1f1f1;
+}
+.attendance_record .table_record td {
+  color: #282828;
+  font-size: 15px;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Tooltip, Container, Avatar, MenuItem, InputBase } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Menu, Tooltip, Container, Avatar, MenuItem, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LanguageIcon from '@mui/icons-material/Language';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -18,14 +18,7 @@ export default function Header({ onLogout }) {
         setAnchorElUser(null);
     };
 
-    const handleLogout = () => {
-        try {
-            localStorage.removeItem("token");
-        } catch (error) {
-
-        }
-    }
-
+    
     return (
         <AppBar className="heder_none" position="static">
             <Container className="top_header" maxWidth="xl">

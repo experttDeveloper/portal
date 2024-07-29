@@ -55,10 +55,11 @@ export const fetchPunchInData = async (userId) => {
 };
 
 
-export const getAttendanceData = async (userId) => {
+export const getAttendanceData = async (userId, params) => {
     let results = await axios({
         method: 'GET',
         url: `http://localhost:5000/api/user/attendance/list/${userId}`,
+        params
     })
         .then(result => result.data)
         .catch(error => {

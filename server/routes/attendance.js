@@ -96,7 +96,7 @@ router.post('/api/user/attendance/punchout', async (req, res) => {
                 });
             }
         } else {
-            res.status(404).send({
+            res.send({
                 status: false,
                 message: "No punch in record found for today"
             });
@@ -140,7 +140,8 @@ router.get('/api/user/attendance/punchin/:userId', async (req, res) => {
 router.get('/api/user/attendance/list/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
-        const attendances = await Attendance.find({ userId }).sort({ date: 1 });
+        const { limit } = req.query;
+        const attendances = await Attendance.find({ userId }).sort({ date: -1 }).limit(limit);;
 
         if (attendances && attendances.length > 0) {
             const formattedData = attendances.map(attendance => ({

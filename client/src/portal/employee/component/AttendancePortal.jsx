@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment'
-import { authenticatedUser } from '../../service/authentication';
+import { authenticatedUser } from '../../../service/authentication';
 import { Button, Container } from '@mui/material';
-import { attendancePunchin, attendancePunchout, fetchPunchInData, getAttendanceData } from '../../service/attendance';
-import Countdown from 'react-countdown';
+import { attendancePunchin, attendancePunchout, fetchPunchInData, getAttendanceData } from '../../../service/attendance';
+
 import { toast } from 'react-toastify'
 
-export default function Home() {
+export default function AttendancePortal() {
 
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -35,7 +35,10 @@ export default function Home() {
             setLoading(true);
             const authenticated = await authenticatedUser();
             const response = await getAttendanceData(authenticated.user.userId)
-            console.log("response", response)
+            if (response) {
+                const lastData = response.data[0];
+                setTotalHours(lastData.totalHours)
+            }
 
         })();
     }, [loading])
@@ -216,6 +219,7 @@ export default function Home() {
                         <span className='elapsed_time' dangerouslySetInnerHTML={{ __html: formatElapsedTime(elapsedTime) }}></span>
                     </p>
                 </div>
+                <p className='total_hoirs'>{`Total Hours : ${totalHours ? totalHours : "0"} h`}</p>
                 {/* {formData.punchIn.time && (
                     <div>
                         <p>Punch In Date: {formData.punchIn.date}</p>

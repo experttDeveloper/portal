@@ -1,16 +1,22 @@
 
 import React from 'react';
 import Header from './Header';
-import Attandance from './Attendance'
-import Home from './Home';
+import DailyAttendance from './component/DailyAttendance'
+import AttendancePortal from './component/AttendancePortal';
+import MonthlyAttendance from './component/MonthlyAttendance';
+import Leave from './component/Leave';
 
 const Content = ({ selectedItem, onLogout }) => {
     const renderContent = () => {
         switch (selectedItem) {
             case 'Home':
-                return <Home />;
+                return <AttendancePortal />;
             case 'DailyAttendance':
-                return <Attandance />
+                return <DailyAttendance />
+            case 'MonthlyAttendance':
+                return <MonthlyAttendance />
+            case 'LeaveList':
+                return <Leave />
             default:
                 return "test"; // Default content
         }

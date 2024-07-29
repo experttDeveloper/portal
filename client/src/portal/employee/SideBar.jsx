@@ -86,6 +86,34 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                     </List>
                 </Collapse>
                 <Divider />
+
+                <ListItem button onClick={() => { handleClickLeaves(); }}>
+                    <ListItemIcon>
+                        <CalendarToday />
+                    </ListItemIcon>
+                    {!collapsed && <ListItemText primary="Leaves" />}
+                    {openLeaves ? <ExpandMore /> : <NavigateNextIcon />}
+                </ListItem>
+                <Collapse in={openLeaves} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveList')}
+                            className={selectedMenu === "LeaveList" ? "active_sidebar_menu" : "inactive_sidebar"}
+                        >
+                            <ListItemIcon>
+                                <AdjustIcon />
+                            </ListItemIcon>
+                            {!collapsed && <ListItemText primary="Leave List" />}
+                        </ListItem>
+                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
+                            className={selectedMenu === "LeaveBalances" ? "active_sidebar_menu" : "inactive_sidebar"}
+                        >
+                            <ListItemIcon>
+                                <AdjustIcon />
+                            </ListItemIcon>
+                            {!collapsed && <ListItemText primary="Leave Balances" />}
+                        </ListItem>
+                    </List>
+                </Collapse>
                 <ListItem button onClick={() => { handleClickPayroll(); }}>
                     <ListItemIcon>
                         <AttachMoney />
@@ -114,33 +142,6 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                     </List>
                 </Collapse>
                 <Divider />
-                <ListItem button onClick={() => { handleClickLeaves(); }}>
-                    <ListItemIcon>
-                        <CalendarToday />
-                    </ListItemIcon>
-                    {!collapsed && <ListItemText primary="Leaves" />}
-                    {openLeaves ? <ExpandMore /> : <NavigateNextIcon />}
-                </ListItem>
-                <Collapse in={openLeaves} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveRequests')}
-                            className={selectedMenu === "LeaveRequests" ? "active_sidebar_menu" : "inactive_sidebar"}
-                        >
-                            <ListItemIcon>
-                                <AdjustIcon />
-                            </ListItemIcon>
-                            {!collapsed && <ListItemText primary="Leave Requests" />}
-                        </ListItem>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
-                            className={selectedMenu === "LeaveBalances" ? "active_sidebar_menu" : "inactive_sidebar"}
-                        >
-                            <ListItemIcon>
-                                <AdjustIcon />
-                            </ListItemIcon>
-                            {!collapsed && <ListItemText primary="Leave Balances" />}
-                        </ListItem>
-                    </List>
-                </Collapse>
             </List>
         </Box>
     );

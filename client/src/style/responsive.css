@@ -1,5 +1,18 @@
 
 
+
+
+/* Responsive start to 6000px to down 1500px*/
+@media (min-width: 1600px) and (max-width: 6000px) {
+  .sidebar_content {
+    width: 1450px;
+    margin: 0 auto;
+}
+
+
+}
+/* Responsive css end to 2400px to down 1500px*/
+
 @media (min-width: 600px) {
     .search {
       margin-left: 24px;

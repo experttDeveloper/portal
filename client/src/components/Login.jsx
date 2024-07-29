@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   Backdrop,
   Button,
@@ -79,7 +79,6 @@ export default function Login({ onLoginSuccess }) {
           setIsLoading(false)
           return
         }
-        setIsLoading(false)
       } catch (error) {
         toast.error("Error in Loogin");
         setIsLoading(false)

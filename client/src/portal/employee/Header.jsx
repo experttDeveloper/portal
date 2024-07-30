@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Menu, Tooltip, Container, Avatar, MenuItem, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -13,6 +13,8 @@ export default function Header({ onLogout }) {
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
+
+
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -51,7 +53,7 @@ export default function Header({ onLogout }) {
                         </IconButton>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="John Doe" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="John Doe" />
                             </IconButton>
                         </Tooltip>
                         <Menu

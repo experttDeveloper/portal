@@ -208,7 +208,7 @@ export default function AttendancePortal() {
         <div className='attendance_component'>
             <Container>
                 <div className='attendanve_main_sec'>
-                    <h1 className='top_main_heading'>Attendance Monitor</h1>
+                    <h1 className='top_main_heading content_title'>Attendance Monitor</h1>
                     <div className='punch_in_punchout'>
                         <Button onClick={handlePunchIn} variant="contained">Punch In</Button>
                         <Button onClick={handlePunchOut} variant="contained">Punch Out</Button>

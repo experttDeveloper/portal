@@ -161,19 +161,22 @@ const Leave = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Container>
-        <h1 className='content_title'>Leave Record</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setShowForm((prev) => !prev)}
-          style={{ marginBottom: '1rem' }}
-          className='apply_leave'
-        >
-          {showForm ? 'Cancel' : 'Apply for Leave'}
-        </Button>
+        <div className='leave_main'>
+          <h1 className='content_title'>Leave Record</h1>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setShowForm((prev) => !prev)}
+            style={{ marginBottom: '1rem' }}
+            className='apply_leave'
+          >
+            {showForm ? 'Cancel' : 'Apply for Leave'}
+          </Button>
+
+        </div>
 
         {showForm ? (
-          <Box component="form" onSubmit={handleSubmit} sx={{ marginBottom: '2rem' }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ marginBottom: '2rem' }} className='leave_form'>
             <Grid container spacing={2}>
               <Grid item md={12}>
                 <FormControl fullWidth margin="normal" error={!!errors.leaveType}>
@@ -247,58 +250,61 @@ const Leave = () => {
                 />
               </Grid>
             </Grid>
-            <Button type="submit" variant="contained" color="primary" >
+            <Button type="submit" variant="contained" color="primary" className='apply_leave' fullWidth>
               Apply
             </Button>
 
           </Box>
         ) : (
-          <div className='attendance_record'>
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-              <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table" className='table_record'>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Applied At</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Start Date and Time</TableCell>
-                      <TableCell>End Date and Time</TableCell>
-                      <TableCell>Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {leaveHistory
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((leave) => {
-                        const startDate = moment(leave.startDate).format('DD-MM-YYYY HH:mm a');
-                        const endDate = moment(leave.endDate).format('DD-MM-YYYY HH:mm a');
-                        const appliedAt = moment(leave.createdAt).format('DD-MM-YYYY HH:mm a');
-                        return (
-                          <TableRow key={leave._id}>
-                            <TableCell>{appliedAt}</TableCell>
-                            <TableCell>{leave.type}</TableCell>
-                            <TableCell>{startDate}</TableCell>
-                            <TableCell>{endDate}</TableCell>
-                            <TableCell>
-                              <Chip className='' label={`${leave.status}`} variant="filled" color={`${leave.status === "pending" ? "error" : "success"}`} />
+          <div className='parent_table'>
 
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 100]}
-                component="div"
-                count={leaveHistory.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
+            <div className='attendance_record'>
+              <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table" className='table_record'>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Applied At</TableCell>
+                        <TableCell>Type</TableCell>
+                        <TableCell>Start Date and Time</TableCell>
+                        <TableCell>End Date and Time</TableCell>
+                        <TableCell>Status</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {leaveHistory
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((leave) => {
+                          const startDate = moment(leave.startDate).format('DD-MM-YYYY HH:mm a');
+                          const endDate = moment(leave.endDate).format('DD-MM-YYYY HH:mm a');
+                          const appliedAt = moment(leave.createdAt).format('DD-MM-YYYY HH:mm a');
+                          return (
+                            <TableRow key={leave._id}>
+                              <TableCell>{appliedAt}</TableCell>
+                              <TableCell>{leave.type}</TableCell>
+                              <TableCell>{startDate}</TableCell>
+                              <TableCell>{endDate}</TableCell>
+                              <TableCell>
+                                <Chip className='leave_status' label={`${leave.status}`} variant="filled" color={`${leave.status === "pending" ? "error" : "success"}`} />
+
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 100]}
+                  component="div"
+                  count={leaveHistory.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>
+            </div>
           </div>
         )}
       </Container>

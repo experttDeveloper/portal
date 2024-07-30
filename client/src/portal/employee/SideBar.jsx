@@ -102,16 +102,16 @@ const Sidebar = ({ onSelect, collapsed, toggleCollapse, selectedMenu }) => {
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
-                            {!collapsed && <ListItemText primary="Leave List" />}
+                            {!collapsed && <ListItemText primary="Leave Record" />}
                         </ListItem>
-                        <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
+                        {/* <ListItem button sx={{ pl: 4 }} onClick={() => onSelect('LeaveBalances')}
                             className={selectedMenu === "LeaveBalances" ? "active_sidebar_menu" : "inactive_sidebar"}
                         >
                             <ListItemIcon>
                                 <AdjustIcon />
                             </ListItemIcon>
                             {!collapsed && <ListItemText primary="Leave Balances" />}
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                 </Collapse>
                 <ListItem button onClick={() => { handleClickPayroll(); }}>

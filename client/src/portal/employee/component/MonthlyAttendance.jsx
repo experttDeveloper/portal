@@ -42,8 +42,8 @@ export default function MonthlyAttendance() {
 
     return (
         <Container className='attendance_record'>
-            <Paper sx={{ width: '100%', overflow: 'hidden' }} >
-                <h1 className='content_title'>Monthly Attendance Record</h1>
+            <h1 className='content_title'>Monthly Attendance Record</h1>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }} className='table_attendance'>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table" className='table_record'>
                         <TableHead>

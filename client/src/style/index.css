@@ -297,3 +297,7 @@ p.total_hoirs {
   color: #282828;
   font-size: 15px;
 }
+
+button.apply_leave {
+  float: right;
+}

@@ -69,12 +69,21 @@ router.post('/api/user/attendance/punchin', async (req, res) => {
 router.post('/api/user/attendance/punchout', async (req, res) => {
     try {
         const { userId, logoutTime, logoutDate, logoutDay } = req.body;
-        const attendance = await Attendance.findOne({ userId, date: logoutDate });
+
+        // Ensure date format is consistent
+        const formattedLogoutDate = moment(logoutDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
+
+        // Find the attendance record for the punch-out date or previous dates if working a night shift
+        const attendance = await Attendance.findOne({ userId, "sessions.punchOutTime": null }).sort({ date: -1 });
 
         if (attendance) {
-            const session = attendance.sessions.find(session => !session.punchOutTime && moment(`${session.punchInDate} ${session.punchInTime}`).isBefore(moment(`${logoutDate} ${logoutTime}`)));
+            const session = attendance.sessions.find(session =>
+                !session.punchOutTime &&
+                moment(`${session.punchInDate} ${session.punchInTime}`, 'YYYY-MM-DD h:mm:ss a').isBefore(moment(`${logoutDate} ${logoutTime}`, 'YYYY-MM-DD h:mm:ss a'))
+            );
+
             if (session) {
-                session.punchOutDate = logoutDate;
+                session.punchOutDate = formattedLogoutDate;
                 session.punchOutDay = logoutDay;
                 session.punchOutTime = logoutTime;
 
@@ -98,7 +107,7 @@ router.post('/api/user/attendance/punchout', async (req, res) => {
         } else {
             res.send({
                 status: false,
-                message: "No punch in record found for today"
+                message: "No punch in record found"
             });
         }
     } catch (error) {

@@ -1,22 +1,31 @@
-
 import React from 'react';
 import Header from './Header';
-import DailyAttendance from './component/DailyAttendance'
+import DailyAttendance from './component/DailyAttendance';
 import AttendancePortal from './component/AttendancePortal';
 import MonthlyAttendance from './component/MonthlyAttendance';
 import Leave from './component/Leave';
+import Setting from './component/Setting';
+import ChangePassword from './component/ChangePassword';
 
-const Content = ({ selectedItem, onLogout }) => {
+const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
+
+
     const renderContent = () => {
         switch (selectedItem) {
             case 'Home':
                 return <AttendancePortal />;
             case 'DailyAttendance':
-                return <DailyAttendance />
+                return <DailyAttendance />;
             case 'MonthlyAttendance':
-                return <MonthlyAttendance />
+                return <MonthlyAttendance />;
             case 'LeaveList':
-                return <Leave />
+                return <Leave />;
+            case 'Profile':
+                return "Profile";
+            case 'ChangePassword':
+                return <ChangePassword />;
+            case 'Settings':
+                return <Setting />;
             default:
                 return "test"; // Default content
         }
@@ -24,8 +33,8 @@ const Content = ({ selectedItem, onLogout }) => {
 
     return (
         <>
-            <Header onLogout={onLogout} />
-            <div className='content_rendor '>
+            <Header onLogout={onLogout} onMenuItemClick={onMenuItemClick} />
+            <div className='content_rendor'>
                 {renderContent()}
             </div>
         </>

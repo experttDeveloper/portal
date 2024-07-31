@@ -355,3 +355,99 @@ form.leave_form {
   align-items: center;
   justify-content: center;
 }
+
+
+.avtar_design {
+  text-transform: capitalize;
+  background: linear-gradient(to right, #afe55a, #21995d);
+}
+
+/* login button css start here  */
+div#menu-appbar ul {
+  padding: 17px 17px 3px 17px;
+  box-shadow: 0px 0px 10px 0px #ccc;
+  border-radius: 5px;
+}
+.first_sec {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+.first_sec p {
+  padding: 0;
+  margin: 0;
+}
+p.name {
+  font-size: 15px;
+  color: #423b50;
+  font-weight: 500;
+}
+p.email {
+  color: #8f8f91;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+}
+.first_sec:after {
+  width: 100%;
+  height: 1px;
+  background: #e5e4e7;
+  content: "";
+  left: 0px;
+  display: block;
+  position: absolute;
+  top: 70px;
+}
+.first_sec li {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.main_section_account li {
+  padding: 0px;
+  color: #423b50;
+  font-size: 15px;
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.logout {
+  background: #ff4c51 !important;
+  color: #fff !important;
+  padding: 8px !important;
+  border-radius: 5px !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 7px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+.logout svg {
+  font-size: 17px;
+}
+.logout:hover {
+  background: #ff4c51 !important;
+}
+.menu_item {margin-right: 45px;}
+.pornhub_brandclever {
+  width: 100% !important;
+  margin-left: -10px !important;
+  max-width: 270px !important;
+  margin-top: 10px !important;
+}
+.main_section_account li svg {
+  color: #423b50;
+  font-size: 22px;
+}
+.logout svg {
+  color: #fff !important;
+}
+.main_section_account li:hover {
+  background-color: unset;
+}
+
+
+/* login button css end here  */

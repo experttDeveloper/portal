@@ -1,13 +1,13 @@
 // src/components/Leave.js
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, TextField, Box, Button, Select, MenuItem, InputLabel, FormControl, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, FormHelperText, TablePagination, Chip } from '@mui/material';
+import { Container, TextField, Box, Button, Select, MenuItem, InputLabel, FormControl, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, FormHelperText, TablePagination, Chip } from '@mui/material';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import moment from "moment"
 import { authenticatedUser } from '../../../service/authentication';
 import { toast } from 'react-toastify';
 import { applyLeave, getLeave } from '../../../service/leave';
-import { sendEmail } from '../../../service/email';
+import { getUser } from '../../../service/user';
 
 const Leave = () => {
 
@@ -40,6 +40,7 @@ const Leave = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
 
 
   useEffect(() => {
@@ -120,6 +121,7 @@ const Leave = () => {
       // return;
       if (!validate()) return;
       const authenticated = await authenticatedUser();
+
       if (authenticated) {
         const newLeave = {
           id: leaveHistory.length + 1,
@@ -285,7 +287,7 @@ const Leave = () => {
                               <TableCell>{startDate}</TableCell>
                               <TableCell>{endDate}</TableCell>
                               <TableCell>
-                                <Chip className='leave_status' label={`${leave.status}`} variant="filled" color={`${leave.status === "pending" ? "error" : "success"}`} />
+                                <Chip className='leave_status' label={`${leave.status}`} variant="filled" color={`${leave.status === "pending" ? "warning" : "success"}`} />
 
                               </TableCell>
                             </TableRow>

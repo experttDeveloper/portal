@@ -19,19 +19,28 @@ router.get('/api/users', async (req, res) => {
 });
 
 
-router.get('/api/user/:id', (req, res) => {
+router.get('/api/user/:id', async (req, res) => {
     try {
-
         const userId = req.params.id;
         // Find the item by ID
-        const userData = User.find((user) => user._id === userId);
+        const userData = await User.findById(userId);
         if (userData) {
-            res.json(userData); // Respond with the userData as JSON
+            return res.send(
+                {
+                    status: true,
+                    data: userData
+                }
+            );
         } else {
-            res.status(404).json({ error: 'userData not found' });
+            return res.send(
+                {
+                    status: false,
+                    error: 'userData not found'
+                }
+            );
         }
     } catch (error) {
-
+        console.log("error", error);
     }
 });
 
@@ -95,18 +104,33 @@ router.post('/api/user/login', async (req, res) => {
 });
 
 
-router.get('/api/users', async (req, res) => {
+router.put('/api/user/:id', async (req, res) => {
     try {
-        const userData = await User.find();
-        if (userData) {
-            return {
-                status: true,
-                result: userData
-            }
-        }
+        const userId = req.params.id;
+        const updatedData = req.body; // Extract updated data from the request body
+        // Find and update the user by ID
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            {
+                ...updatedData,
+                updatedAt: new Date(),
+                createdAt: new Date()
+            }, {
+            new: true, // Return the updated document
+            runValidators: true // Run schema validators
 
+        });
+
+        if (updatedUser) {
+            res.send({
+                status: true,
+                data: updatedUser,
+                message: "Updated Successfully"
+            }); // Respond with the updated user data
+        } else {
+            res.send({ status: false, error: 'User not found' });
+        }
     } catch (error) {
-        console.log(error)
+        res.status(500).json({ error: 'An error occurred' });
     }
 });
 
@@ -124,5 +148,48 @@ router.delete('/api/user/:id', async (req, res) => {
         console.log(error)
     }
 });
+
+
+router.put('/api/user/update/password/:id', async (req, res) => {
+    try {
+        // Find the user by ID
+        const userId = req.params.id;
+        console.log("userId", userId)
+        // Find the item by ID
+        const { newPassword, currentPassword } = req.body;
+        console.log("req.body", req.body)
+        const user = await User.findById(userId);
+        console.log("user", user)
+        // if (!user) {
+        //     return { status: false, message: 'User not found' };
+        // }
+
+        // Check if the current password matches (plain text comparison)
+        if (user.password !== currentPassword) {
+            return res.send({ status: false, message: 'Current password is incorrect' });
+        }
+
+        const result = await User.findByIdAndUpdate(userId,
+            {
+                password: newPassword,
+                updatedAt: new Date(),
+                createdAt: new Date()
+            }, {
+            new: true, // Return the updated document
+            runValidators: true // Run schema validators
+
+        });
+        if (result) {
+            return res.send({ status: true, message: 'Password updated successfully' });
+        } else {
+            return res.send({ status: false, message: 'Something went wrong' });
+        }
+    } catch (error) {
+        console.error('Error updating password:', error);
+        return { status: false, message: 'Failed to update password' };
+    }
+
+});
+
 
 module.exports = router;

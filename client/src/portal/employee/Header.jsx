@@ -1,26 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Menu, Tooltip, Container, Avatar, MenuItem, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LanguageIcon from '@mui/icons-material/Language';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { authenticatedUser } from '../../service/authentication';
+import { getUser } from '../../service/user';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import KeyIcon from '@mui/icons-material/Key';
 
-
-export default function Header({ onLogout }) {
+const Header = ({ onLogout, onMenuItemClick }) => {
+    const [user, setUser] = useState({});
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
-    
+    const handleMenuItemSelect = (item) => {
+        onMenuItemClick(item);
+        handleCloseUserMenu();
+    };
+
+    useEffect(() => {
+        (async () => {
+            const authenticated = await authenticatedUser();
+            if (authenticated.status) {
+                const response = await getUser(authenticated.user.userId);
+                if (response.status) {
+                    setUser(response.data);
+                }
+            }
+        })();
+    }, []);
+
+    const firstLetter = user && user.email ? user.email.charAt(0) : '';
+
     return (
         <AppBar className="heder_none" position="static">
             <Container className="top_header" maxWidth="xl">
@@ -51,9 +73,11 @@ export default function Header({ onLogout }) {
                         <IconButton color="inherit">
                             <NotificationsIcon />
                         </IconButton>
-                        <Tooltip title="Open settings">
+                        <Tooltip title={user.email}>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="John Doe" />
+                                <Avatar alt={firstLetter} className='avtar_design'>
+                                    {firstLetter}
+                                </Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -62,25 +86,40 @@ export default function Header({ onLogout }) {
                             anchorEl={anchorElUser}
                             anchorOrigin={{
                                 vertical: 'top',
-                                horizontal: 'right',
                             }}
                             keepMounted
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'right',
                             }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
+                            PaperProps={{
+                                className: "pornhub_brandclever"
+                            }}
                         >
-
-                            <MenuItem>My Profile</MenuItem>
-                            <MenuItem>Setting</MenuItem>
-                            <MenuItem onClick={onLogout}>Log Out</MenuItem>
-
+                            <div className='main_section_account'>
+                                <div className='first_sec'>
+                                    <div className='avtar'>
+                                        <Avatar alt={firstLetter} className='avtar_design' >
+                                            {firstLetter}
+                                        </Avatar>
+                                    </div>
+                                    <div className='name_email'>
+                                        <p className='name'>{user.name ? user.name : "John sinha"}</p>
+                                        <p className='email'>{user.email && user.email}</p>
+                                    </div>
+                                </div>
+                                <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Profile')}><PersonOutlineIcon /> Profile</MenuItem>
+                                <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('ChangePassword')}><KeyIcon /> Change password</MenuItem>
+                                <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Settings')}><SettingsIcon /> Setting</MenuItem>
+                                <MenuItem className='logout' onClick={onLogout}>Logout <LogoutIcon /></MenuItem>
+                            </div>
                         </Menu>
                     </Box>
                 </Toolbar>
             </Container>
         </AppBar>
-    )
-}
+    );
+};
+
+export default Header;

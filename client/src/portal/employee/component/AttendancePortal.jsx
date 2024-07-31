@@ -30,14 +30,15 @@ export default function AttendancePortal() {
         },
     });
 
+    
     useEffect(() => {
         (async () => {
             setLoading(true);
             const authenticated = await authenticatedUser();
-            const response = await getAttendanceData(authenticated.user.userId)
+            const response = await getAttendanceData(authenticated.user.userId);
             if (response) {
                 const lastData = response.data[0];
-                setTotalHours(lastData.totalHours)
+                setTotalHours(lastData.totalHours);
             }
 
         })();

@@ -38,7 +38,7 @@ export default function AttendancePortal() {
             const response = await getAttendanceData(authenticated.user.userId);
             if (response) {
                 const lastData = response.data[0];
-                setTotalHours(lastData.totalHours);
+                setTotalHours(lastData?.totalHours);
             }
 
         })();

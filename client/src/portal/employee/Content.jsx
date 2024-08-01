@@ -20,8 +20,6 @@ const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
                 return <MonthlyAttendance />;
             case 'LeaveList':
                 return <Leave />;
-            case 'Profile':
-                return "Profile";
             case 'ChangePassword':
                 return <ChangePassword />;
             case 'Settings':

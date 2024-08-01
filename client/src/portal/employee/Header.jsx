@@ -109,7 +109,7 @@ const Header = ({ onLogout, onMenuItemClick }) => {
                                         <p className='email'>{user.email && user.email}</p>
                                     </div>
                                 </div>
-                                <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Profile')}><PersonOutlineIcon /> Profile</MenuItem>
+                                <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Home')}><PersonOutlineIcon /> Go to Dashboard</MenuItem>
                                 <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('ChangePassword')}><KeyIcon /> Change password</MenuItem>
                                 <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Settings')}><SettingsIcon /> Setting</MenuItem>
                                 <MenuItem className='logout' onClick={onLogout}>Logout <LogoutIcon /></MenuItem>

@@ -101,6 +101,14 @@ const ChangePassword = () => {
                                 <Button variant='contained' type='submit' className='apply_leave'>
                                     Change Password
                                 </Button>
+                                {/* <Button
+                                    variant='contained'
+                                    type='button'
+                                    className='apply_leave'
+                                    sx={{ marginLeft: '20px !important' }}
+                                >
+                                    cancle
+                                </Button> */}
                             </Grid>
                         </Grid>
                     </form>

@@ -30,7 +30,7 @@ export default function AttendancePortal() {
         },
     });
 
-    
+
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -87,50 +87,52 @@ export default function AttendancePortal() {
     const handlePunchIn = async () => {
 
         const authenticated = await authenticatedUser();
+        if (authenticated) {
+            const currentTime = moment();
+            const newFormData = {
+                ...formData,
+                punchIn: {
+                    date: currentTime.format('YYYY-MM-DD'),
+                    day: currentTime.format('dddd'),
+                    time: currentTime.format('h:mm:ss a'),
+                },
+                punchOut: {
+                    date: null,
+                    day: null,
+                    time: null,
+                },
+                totalTime: {
+                    hours: null,
+                    minutes: null,
+                },
+            };
+            setFormData(newFormData);
 
-        const currentTime = moment();
-        const newFormData = {
-            ...formData,
-            punchIn: {
-                date: currentTime.format('YYYY-MM-DD'),
-                day: currentTime.format('dddd'),
-                time: currentTime.format('h:mm:ss a'),
-            },
-            punchOut: {
-                date: null,
-                day: null,
-                time: null,
-            },
-            totalTime: {
-                hours: null,
-                minutes: null,
-            },
-        };
-        setFormData(newFormData);
+            try {
+                const response = await attendancePunchin({
+                    role: authenticated.user.role,
+                    userId: authenticated.user.userId,
+                    loginTime: newFormData.punchIn.time,
+                    loginDay: newFormData.punchIn.day,
+                    loginDate: newFormData.punchIn.date,
+                });
+                if (response.status) {
+                    toast.success(response.message)
+                    setElapsedTime(0);
+                    setIsTimerRunning(true);
+                    return
+                } else {
+                    toast.error(response.message)
+                    return
+                }
 
-        try {
-            const response = await attendancePunchin({
-                role: authenticated.user.role,
-                userId: authenticated.user.userId,
-                loginTime: newFormData.punchIn.time,
-                loginDay: newFormData.punchIn.day,
-                loginDate: newFormData.punchIn.date,
-            });
-            if (response.status) {
-                toast.success(response.message)
-                setElapsedTime(0);
-                setIsTimerRunning(true);
-                return
-            } else {
-                toast.error(response.message)
-                return
+            } catch (error) {
+                toast.error(error)
+                console.error('Error punching in:', error);
+
             }
-
-        } catch (error) {
-            toast.error(error)
-            console.error('Error punching in:', error);
-
         }
+
     };
 
     // Function to handle punch-out

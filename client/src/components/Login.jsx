@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   Backdrop,
   Button,
@@ -62,9 +62,14 @@ export default function Login({ onLoginSuccess }) {
     e.preventDefault();
     if (validate()) {
       try {
-        setIsLoading(true)
-        const result = await loginUser(formState);
-        if (result.status) {
+        setIsLoading(true);
+        const formData = {
+          username_or_email: formState.email,
+          password: formState.password
+        }
+        const result = await loginUser(formData);
+        setIsLoading(false)
+        if (result.status === "success") {
           localStorage.setItem("token", result.token);
           setFormState({
             email: "",

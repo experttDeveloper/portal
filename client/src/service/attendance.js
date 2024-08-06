@@ -7,7 +7,7 @@ export const attendancePunchin = async (params) => {
 
     let results = await axios({
         method: 'POST',
-        url: "http://localhost:5000/api/user/attendance/punchin",
+        url: "https://brandclever.in/developer/portal/api.php?endpoint=punchIn",
         data: params
     })
         .then(result => result.data)

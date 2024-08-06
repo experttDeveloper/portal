@@ -3,9 +3,10 @@ import axios from "axios";
 
 
 export const loginUser = async (params) => {
+    console.log("")
     let results = await axios({
         method: 'POST',
-        url: "http://localhost:5000/api/user/login",
+        url: "https://brandclever.in/developer/portal/login.php",
         data: params
     })
         .then(result => result.data)

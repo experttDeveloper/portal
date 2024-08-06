@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000' // Adjust the base URL as needed
+    baseURL: 'https://brandclever.in/developer/portal' // Adjust the base URL as needed
 });
+
 
 api.interceptors.request.use(
     (config) => {

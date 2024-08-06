@@ -18,9 +18,10 @@ function App() {
     (async () => {
       try {
         const res = await authenticatedUser();
-        if (res.status) {
+        console.log("res", res)
+        if (res.status === "success") {
           setIsAuthenticated(true);
-          setUser(res.user);
+          setUser(res);
         } else {
           setIsAuthenticated(false)
         }

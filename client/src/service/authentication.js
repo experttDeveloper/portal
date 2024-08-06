@@ -1,11 +1,19 @@
-import api from "../api/api";
+import axios from "axios";
+
 
 export const authenticatedUser = async () => {
     try {
-        const response = await api.get('/api/protected');
-        return response.data;
+        const token = localStorage.getItem("token");
+        if (token) {
+            const response = await axios.get("https://brandclever.in/developer/portal/protected.php", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        }
     } catch (error) {
-        console.error('Error fetching protected data', error);
+        console.error('Error fetching protected resource:', error);
         throw error;
     }
 };

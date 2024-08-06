@@ -32,8 +32,8 @@ const Header = ({ onLogout, onMenuItemClick }) => {
     useEffect(() => {
         (async () => {
             const authenticated = await authenticatedUser();
-            if (authenticated.status) {
-                const response = await getUser(authenticated.user.userId);
+            if (authenticated.status==="success") {
+                const response = await getUser(authenticated.userId);
                 if (response.status) {
                     setUser(response.data);
                 }

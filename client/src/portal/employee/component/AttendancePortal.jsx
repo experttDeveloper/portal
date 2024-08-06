@@ -35,7 +35,7 @@ export default function AttendancePortal() {
         (async () => {
             setLoading(true);
             const authenticated = await authenticatedUser();
-            const response = await getAttendanceData(authenticated.user.userId);
+            const response = await getAttendanceData(authenticated.userId);
             if (response) {
                 const lastData = response.data[0];
                 setTotalHours(lastData?.totalHours);
@@ -110,12 +110,14 @@ export default function AttendancePortal() {
 
             try {
                 const response = await attendancePunchin({
-                    role: authenticated.user.role,
-                    userId: authenticated.user.userId,
+                    role: authenticated.role,
+                    userId: authenticated.userId,
                     loginTime: newFormData.punchIn.time,
                     loginDay: newFormData.punchIn.day,
                     loginDate: newFormData.punchIn.date,
                 });
+                console.log("response",response);
+                return;
                 if (response.status) {
                     toast.success(response.message)
                     setElapsedTime(0);

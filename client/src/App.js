@@ -12,13 +12,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
 
-
   useEffect(() => {
     // IIFE for async operation
     (async () => {
       try {
         const res = await authenticatedUser();
-        console.log("res", res)
         if (res.status === "success") {
           setIsAuthenticated(true);
           setUser(res);
@@ -35,11 +33,14 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    setUser({});
+    setUser(null);
   };
 
 
   const renderPortal = () => {
+    if (!user) {
+      return null; // Do not render any portal if user is null
+    }
     switch (user.role) {
       case "emp":
         return <EmployeePortal onLogout={handleLogout} />;
@@ -51,8 +52,12 @@ function App() {
   };
 
   const handleLoginSuccess = (user) => {
-    setIsAuthenticated(true);
-    setUser(user);
+    try {
+      setIsAuthenticated(true);
+      setUser(user);
+    } catch (error) {
+      console.log("error", error)
+    }
   };
 
 

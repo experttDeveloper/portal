@@ -33,12 +33,20 @@ export default function AttendancePortal() {
 
     useEffect(() => {
         (async () => {
-            setLoading(true);
-            const authenticated = await authenticatedUser();
-            const response = await getAttendanceData(authenticated.userId);
-            if (response) {
-                const lastData = response.data[0];
-                setTotalHours(lastData?.totalHours);
+            try {
+
+                setLoading(true);
+                const authenticated = await authenticatedUser();
+                const response = await getAttendanceData(authenticated.userId);
+                if (response) {
+                    const lastData = response?.data[0];
+                    if (lastData) {
+
+                        setTotalHours(lastData?.totalHours);
+                    }
+                }
+            } catch (error) {
+                console.log("error", error)
             }
 
         })();
@@ -116,7 +124,7 @@ export default function AttendancePortal() {
                     loginDay: newFormData.punchIn.day,
                     loginDate: newFormData.punchIn.date,
                 });
-                console.log("response",response);
+                console.log("response", response);
                 return;
                 if (response.status) {
                     toast.success(response.message)

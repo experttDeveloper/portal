@@ -41,7 +41,7 @@ const Header = ({ onLogout, onMenuItemClick }) => {
         })();
     }, []);
 
-    const firstLetter = user && user.email ? user.email.charAt(0) : '';
+    const firstLetter = user && user.email ? user?.email.charAt(0) : '';
 
     return (
         <AppBar className="heder_none" position="static">
@@ -73,7 +73,7 @@ const Header = ({ onLogout, onMenuItemClick }) => {
                         <IconButton color="inherit">
                             <NotificationsIcon />
                         </IconButton>
-                        <Tooltip title={user.email}>
+                        <Tooltip title={user?.email}>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt={firstLetter} className='avtar_design'>
                                     {firstLetter}
@@ -105,8 +105,8 @@ const Header = ({ onLogout, onMenuItemClick }) => {
                                         </Avatar>
                                     </div>
                                     <div className='name_email'>
-                                        <p className='name'>{user.name ? user.name : "John sinha"}</p>
-                                        <p className='email'>{user.email && user.email}</p>
+                                        <p className='name'>{user?.name ? user.name : "John sinha"}</p>
+                                        <p className='email'>{user?.email && user.email}</p>
                                     </div>
                                 </div>
                                 <MenuItem className='menu_item' onClick={() => handleMenuItemSelect('Home')}><PersonOutlineIcon /> Go to Dashboard</MenuItem>

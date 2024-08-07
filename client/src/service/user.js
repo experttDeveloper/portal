@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 export const loginUser = async (params) => {
-    console.log("")
     let results = await axios({
         method: 'POST',
         url: "https://brandclever.in/developer/portal/login.php",
@@ -21,18 +20,19 @@ export const loginUser = async (params) => {
 
 
 export const getUser = async (userId) => {
-    let results = await axios({
-        method: 'GET',
-        url: `http://localhost:5000/api/user/${userId}`,
-    })
-        .then(result => result.data)
-        .catch(error => {
-            return {
-                status: "error",
-                message: error.message
-            };
+    try {
+        const response = await axios.get('https://brandclever.in/developer/portal/get_user.php', {
+            params: {
+                id: userId
+            }
         });
-    return results;
+        return response.data;
+    } catch (error) {
+        return {
+            status: "error",
+            message: error.message
+        };
+    }
 }
 
 export const updateUser = async (userId, params) => {

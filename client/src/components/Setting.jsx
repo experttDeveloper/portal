@@ -11,9 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { authenticatedUser } from '../../../service/authentication';
-import { getUser, updateUser } from '../../../service/user';
 import { toast } from 'react-toastify';
+import { authenticatedUser } from '../service/authentication';
+import { getUser, updateUser } from '../service/user';
 
 const Setting = () => {
     const [formData, setFormData] = useState({});
@@ -23,7 +23,7 @@ const Setting = () => {
         (async () => {
             const authenticated = await authenticatedUser();
             if (authenticated.status) {
-                const response = await getUser(authenticated.user.userId);
+                const response = await getUser(authenticated.userId);
                 if (response.status) {
                     const userData = response.data;
                     setFormData({
@@ -57,7 +57,23 @@ const Setting = () => {
         e.preventDefault();
         if (!validate()) return;
         try {
-            const response = await updateUser(formData._id, formData);
+            const newFormData = {
+                id: formData.id,
+                role: formData.role,
+                email: formData.email,
+                password: formData.password,
+                username: formData.username || "test",
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                gender: formData.gender,
+                profile: formData.profile,
+                joiningDate: formData.joiningDate,
+                phoneNumber: formData.phoneNumber,
+                currentAddress: formData.currentAddress,
+                permanentAddress: formData.permanentAddress,
+                dob: formData.dob
+            }
+            const response = await updateUser(newFormData);
             if (response.status) {
                 toast.success(response.message);
             } else {
@@ -148,10 +164,10 @@ const Setting = () => {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    label='Address'
-                                    value={formData.address || ""}
-                                    placeholder='Address'
-                                    onChange={e => handleFormChange('address', e.target.value)}
+                                    label='Current Address'
+                                    value={formData.currentAddress || ""}
+                                    placeholder='Current Address'
+                                    onChange={e => handleFormChange('currentAddress', e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

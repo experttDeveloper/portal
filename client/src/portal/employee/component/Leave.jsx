@@ -7,7 +7,6 @@ import moment from "moment"
 import { authenticatedUser } from '../../../service/authentication';
 import { toast } from 'react-toastify';
 import { applyLeave, getLeave } from '../../../service/leave';
-import { getUser } from '../../../service/user';
 
 const Leave = () => {
 

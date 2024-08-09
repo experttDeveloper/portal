@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/material';
 import { toast } from 'react-toastify';
-import { updatePassword } from '../../../service/user';
-import { authenticatedUser } from '../../../service/authentication';
+import { authenticatedUser } from '../service/authentication';
+import { updatePassword } from '../service/user';
 
 const ChangePassword = () => {
     const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
@@ -34,9 +34,14 @@ const ChangePassword = () => {
         e.preventDefault();
         if (!validate()) return;
         try {
-            const authenticated = await authenticatedUser()
+            const authenticated = await authenticatedUser();
             if (authenticated) {
-                const response = await updatePassword(authenticated.user.userId, formData);
+                const newFormData = {
+                    id: authenticated.userId,
+                    current_password: formData.currentPassword,
+                    new_password: formData.newPassword,
+                }
+                const response = await updatePassword(newFormData);
                 if (response.status) {
                     toast.success(response.message);
                     setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });

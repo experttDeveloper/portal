@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 export const attendancePunchin = async (params) => {
-    console.log("params", params);
 
     let results = await axios({
         method: 'POST',

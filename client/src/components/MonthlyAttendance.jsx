@@ -7,13 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { authenticatedUser } from '../../../service/authentication';
-import { getAttendanceData } from '../../../service/attendance';
 import { Container } from '@mui/material';
+import { authenticatedUser } from '../service/authentication';
+import { getAttendanceData } from '../service/attendance';
 
 
 
-export default function DailyAttendance() {
+export default function MonthlyAttendance() {
     const [attendanceRecord, setAttendanceRecord] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -33,7 +33,7 @@ export default function DailyAttendance() {
         (async () => {
             setLoading(true);
             const authenticated = await authenticatedUser();
-            const response = await getAttendanceData(authenticated.user.userId, { limit: 5 })
+            const response = await getAttendanceData(authenticated.userId, { limit: 30 })
             if (response.status) {
                 setAttendanceRecord(response.data)
             }
@@ -42,7 +42,7 @@ export default function DailyAttendance() {
 
     return (
         <Container className='attendance_record'>
-            <h1 className='content_title'>Daily Attendance Record</h1>
+            <h1 className='content_title'>Monthly Attendance Record</h1>
             <Paper sx={{ width: '100%', overflow: 'hidden' }} className='table_attendance'>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table" className='table_record'>

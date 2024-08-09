@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from './Header';
-import Leave from './component/Leave';
 import AttendancePortal from '../../components/AttendancePortal';
 import DailyAttendance from '../../components/DailyAttendance';
 import MonthlyAttendance from '../../components/MonthlyAttendance';
 import ChangePassword from '../../components/ChangePassword';
 import Setting from '../../components/Setting';
+import EmployeeList from './component/EmpList';
+import EmpLeave from './component/EmpLeave';
 
 const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
 
@@ -18,12 +19,15 @@ const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
                 return <DailyAttendance />;
             case 'MonthlyAttendance':
                 return <MonthlyAttendance />;
-            case 'LeaveList':
-                return <Leave />;
             case 'ChangePassword':
                 return <ChangePassword />;
             case 'Settings':
                 return <Setting />;
+            case 'employee':
+                return <EmployeeList />;
+            case 'empleave':
+                return <EmpLeave />;
+
             default:
                 return "test"; // Default content
         }

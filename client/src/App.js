@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { authenticatedUser } from "./service/authentication";
 import EmployeePortal from '../src/portal/employee/Index'
+import HRPortal from "./portal/HR/Index";
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
       case "emp":
         return <EmployeePortal onLogout={handleLogout} />;
       case "HR":
-        return <h1>Hr portal</h1>;
+        return <HRPortal onLogout={handleLogout}/>;
       default:
         return <Login onLoginSuccess={handleLoginSuccess} />;
     }

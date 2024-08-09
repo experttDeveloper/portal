@@ -42,6 +42,7 @@ const Header = ({ onLogout, onMenuItemClick }) => {
     }, []);
 
     const firstLetter = user && user.email ? user.email.charAt(0) : '';
+    const fullName = user && `${user.firstName} ${user.lastName}` ? `${user.firstName} ${user.lastName}` : ""
 
     return (
         <AppBar className="heder_none" position="static">
@@ -105,7 +106,7 @@ const Header = ({ onLogout, onMenuItemClick }) => {
                                         </Avatar>
                                     </div>
                                     <div className='name_email'>
-                                        <p className='name'>{user.name ? user.name : "John sinha"}</p>
+                                    <p className='name'>{fullName ? fullName : "John sinha"}</p>
                                         <p className='email'>{user.email && user.email}</p>
                                     </div>
                                 </div>

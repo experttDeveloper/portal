@@ -36,21 +36,23 @@ export const getUser = async (userId) => {
 }
 
 export const updateUser = async (params) => {
-    console.log("params", params)
+    console.log("Sending params:", params); // Log params to verify
     let results = await axios({
         method: 'POST',
         url: `https://brandclever.in/developer/portal/profile.php`,
         data: params
     })
-        .then(result => result.data)
-        .catch(error => {
-            return {
-                status: "error",
-                message: error.message
-            };
-        });
+    .then(result => result.data)
+    .catch(error => {
+        console.error("Error:", error); // Log error to understand the issue
+        return {
+            status: "error",
+            message: error.message
+        };
+    });
     return results;
 }
+
 
 export const updatePassword = async (params) => {
     console.log("params",params)
@@ -104,20 +106,36 @@ export const getEmployees = async (params) => {
 }
 
 
+
+
 export const deleteEmployee = async (employeeId) => {
-    let results = await axios({
-        method: 'DELETE',
-        url: `https://developer.brandclever.in/portal/delete_users.php?id=${employeeId}`,
-    })
-        .then(result => result.data)
-        .catch(error => {
-            return {
-                status: "error",
-                message: error.message
-            };
-        });
-    return results;
-}
+    try {
+        const response = await axios.delete(`https://developer.brandclever.in/portal/delete_users.php?id=${employeeId}`);
+        return response.data; // Ensure this returns the data as expected
+    } catch (error) {
+        console.error("Error deleting employee:", error);
+        return {
+            status: "error",
+            message: error.message
+        };
+    }
+};
 
 
 
+
+
+
+// export const deleteEmployee = async (employeeId) => {
+//     try {
+//         const result = await axios.delete(`https://developer.brandclever.in/portal/delete_users.php?id=${employeeId}`);
+//         console.log("API Response:", result.data); // Debug the API response
+//         return result.data;
+//     } catch (error) {
+//         console.error("Error deleting employee:", error);
+//         return {
+//             status: "error",
+//             message: error.message
+//         };
+//     }
+// }

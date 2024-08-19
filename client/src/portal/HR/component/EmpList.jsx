@@ -91,16 +91,18 @@ const EmployeeList = () => {
         if (confirmDelete) {
             try {
                 const result = await deleteEmployee(employeeId);
-                console.log("result",result)
-                return
-                if (result.status) {
+                if (result.status === true) {
                     setData((prevData) => prevData.filter((item) => item.id !== employeeId));
+                } else {
+                    console.error("Failed to delete employee:", result.message);
                 }
             } catch (error) {
-                console.error("Failed to delete employee", error);
+                console.error("Failed to delete employee:", error);
             }
         }
     };
+
+
 
 
 
@@ -167,16 +169,19 @@ const EmployeeList = () => {
                                                                     <TableCell>{ele.email}</TableCell>
                                                                     <TableCell>{ele.phoneNumber}</TableCell>
                                                                     <TableCell>
-                                                                        <IconButton onClick={() => handleView(ele)}>
+                                                                        <IconButton className="align-self-center"
+                                                                            color="info"
+                                                                            size="sm" onClick={() => handleView(ele)}>
                                                                             <VisibilityIcon />
                                                                         </IconButton>
                                                                         <IconButton onClick={() => handleEdit(ele)}>
                                                                             <EditNoteIcon />
                                                                         </IconButton>
-                                                                        <IconButton onClick={() => handleDelete(ele.id)}>
+                                                                        <IconButton  onClick={() => handleDelete(ele.id)}>
                                                                             <Delete />
                                                                         </IconButton>
                                                                     </TableCell>
+                                                                    
                                                                 </TableRow>
                                                             )
                                                         })}

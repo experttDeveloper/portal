@@ -22,7 +22,7 @@ function App() {
           setIsAuthenticated(true);
           setUser(res);
         } else {
-          setIsAuthenticated(false)
+          setIsAuthenticated(false);
         }
 
       } catch (error) {

@@ -345,6 +345,7 @@ form.leave_form {
   font-size: 30px !important;
   font-weight: 700;
   color: #2c2c2c;
+  text-transform: capitalize;
 }
 .attendance_record table tr:hover {
   background-color: #f1f1f1 !important;

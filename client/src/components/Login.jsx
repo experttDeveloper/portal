@@ -68,8 +68,9 @@ export default function Login({ onLoginSuccess }) {
           password: formState.password
         }
         const result = await loginUser(formData);
+        console.log("result", result)
         setIsLoading(false)
-        if (result.status === "success") {
+        if (result.status === true) {
           localStorage.setItem("token", result.token);
           setFormState({
             email: "",
@@ -85,7 +86,7 @@ export default function Login({ onLoginSuccess }) {
           return
         }
       } catch (error) {
-        toast.error("Error in Loogin");
+        toast.error("Error in Login");
         setIsLoading(false)
       }
     }
@@ -123,7 +124,7 @@ export default function Login({ onLoginSuccess }) {
           <form onSubmit={handleSubmit}>
             <div className="logo_sec">
               <img
-                src="/images/logo.png"
+                src="images/logo.png"
                 alt="logo"
               />
             </div>

@@ -35,8 +35,19 @@ export default function DailyAttendance() {
             const authenticated = await authenticatedUser();
             const response = await getAttendanceData(authenticated.userId, { limit: 5 })
             if (response.status) {
-                setAttendanceRecord(response.data)
+                const uniqueDates = new Set(response.attendanceList.map(item => item.punch_in_date));
+
+                // Filter data to keep only the first entry for each unique date
+                const uniqueData = response.attendanceList.filter(item => {
+                    if (uniqueDates.has(item.punch_in_date)) {
+                        uniqueDates.delete(item.punch_in_date); // Remove the date once it has been processed
+                        return true;
+                    }
+                    return false;
+                });
+                setAttendanceRecord(uniqueData);
             }
+
         })();
     }, [loading])
 
@@ -52,23 +63,21 @@ export default function DailyAttendance() {
                                 <TableCell> Day </TableCell>
                                 <TableCell> Last punch In </TableCell>
                                 <TableCell> Last Punch Out </TableCell>
-                                <TableCell> Total Hours </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {attendanceRecord
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((attendance) => {
-                                    const punchInTimeRecord = attendance.sessions[attendance.sessions.length - 1];
-                                    const punchOutTimeRecord = attendance.sessions[attendance.sessions.length - 1];
+                                    // const punchInTimeRecord = attendance.sessions[attendance.sessions.length - 1];
+                                    // const punchOutTimeRecord = attendance.sessions[attendance.sessions.length - 1];
 
                                     return (
                                         <TableRow hover role="checkbox" >
-                                            <TableCell >{attendance.date}</TableCell>
-                                            <TableCell >{attendance.day}</TableCell>
-                                            <TableCell >{punchInTimeRecord.punchInTime}</TableCell>
-                                            <TableCell >{punchOutTimeRecord.punchOutTime}</TableCell>
-                                            <TableCell >{attendance.totalHours} h</TableCell>
+                                            <TableCell >{attendance.punch_in_date}</TableCell>
+                                            <TableCell >{attendance.punch_in_day}</TableCell>
+                                            <TableCell >{attendance.punch_in_time}</TableCell>
+                                            <TableCell >{attendance.punch_out_time}</TableCell>
                                         </TableRow>
                                     );
                                 })}

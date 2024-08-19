@@ -6,7 +6,7 @@ export const loginUser = async (params) => {
     let results = await axios({
         method: 'POST',
         url: "https://brandclever.in/developer/portal/login.php",
-        data: params
+        data: params,
     })
         .then(result => result.data)
         .catch(error => {
@@ -73,7 +73,7 @@ export const updatePassword = async (params) => {
 export const addEmployee = async (params) => {
     let results = await axios({
         method: 'POST',
-        url: "http://localhost:5000/api/add/empployee",
+        url: "https://brandclever.in/developer/portal/register.php",
         data: params
     })
         .then(result => result.data)
@@ -90,7 +90,7 @@ export const addEmployee = async (params) => {
 export const getEmployees = async (params) => {
     let results = await axios({
         method: 'GET',
-        url: "http://localhost:5000/api/empployee",
+        url: "https://developer.brandclever.in/portal/get_all_users.php",
         data: params
     })
         .then(result => result.data)
@@ -107,7 +107,7 @@ export const getEmployees = async (params) => {
 export const deleteEmployee = async (employeeId) => {
     let results = await axios({
         method: 'DELETE',
-        url: `http://localhost:5000/api/empployee/${employeeId}`,
+        url: `https://developer.brandclever.in/portal/delete_users.php?id=${employeeId}`,
     })
         .then(result => result.data)
         .catch(error => {

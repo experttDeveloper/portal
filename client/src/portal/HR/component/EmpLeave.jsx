@@ -32,6 +32,7 @@ const EmpLeave = () => {
                 const authenticated = await authenticatedUser();
                 if (authenticated) {
                     const response = await getEmpLeave();
+                    console.log("response",response);
                     if (response.status) {
                         setData(response.data)
                         setLoading(false)
@@ -82,6 +83,7 @@ const EmpLeave = () => {
                                             <TableCell>type</TableCell>
                                             <TableCell>reason</TableCell>
                                             <TableCell>from to</TableCell>
+                                            <TableCell>to</TableCell>
                                             <TableCell>Status</TableCell>
                                             <TableCell>Action</TableCell>
                                         </TableRow>
@@ -90,18 +92,19 @@ const EmpLeave = () => {
                                         {data
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((ele) => {
-                                                const user = ele.userDetails || {}
-                                                const endDate = moment(ele.endDate).format('DD-MM-YYYY HH:mm a');
-                                                const startDate = moment(ele.startDate).format('DD-MM-YYYY HH:mm a');
-                                                const appliedAt = moment(ele.createdAt).format('DD-MM-YYYY HH:mm a');
+                                                const user = ele.user || {}
+                                                const endDate = moment(ele.leave_end_at).format('DD-MM-YYYY HH:mm a');
+                                                const startDate = moment(ele.leave_start_at).format('DD-MM-YYYY HH:mm a');
+                                                const appliedAt = moment(ele.leave_created_at).format('DD-MM-YYYY HH:mm a');
                                                 return (
                                                     <TableRow key={ele._id}>
                                                         <TableCell>{appliedAt}</TableCell>
                                                         <TableCell>{user.firstName} {user.lastName}</TableCell>
                                                         <TableCell>{user.profile}</TableCell>
-                                                        <TableCell>{ele.type}</TableCell>
-                                                        <TableCell>{ele.reason}</TableCell>
-                                                        <TableCell>{startDate} to {endDate}</TableCell>
+                                                        <TableCell>{ele.leave_type}</TableCell>
+                                                        <TableCell>{ele.leave_reason}</TableCell>
+                                                        <TableCell>{startDate}</TableCell>
+                                                        <TableCell>{endDate}</TableCell>
                                                         <TableCell>
                                                             <Chip className='leave_status' label={ele.status} color={
                                                                 ele.status === "approved" ? "success" :

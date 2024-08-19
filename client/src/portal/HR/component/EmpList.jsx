@@ -44,10 +44,10 @@ const EmployeeList = () => {
 
     const handleSave = async (updatedData) => {
         try {
-            const response = await updateUser(selectedEmployee._id, updatedData);
+            const response = await updateUser(selectedEmployee.id, updatedData);
             if (response.status) {
                 // Refresh the employee list
-                const updatedEmployees = data.map(emp => emp._id === selectedEmployee._id ? { ...emp, ...updatedData } : emp);
+                const updatedEmployees = data.map(emp => emp.id === selectedEmployee.id ? { ...emp, ...updatedData } : emp);
                 setData(updatedEmployees);
                 setViewMode('view');
                 setSelectedEmployee(null);
@@ -71,9 +71,9 @@ const EmployeeList = () => {
                 const authenticated = await authenticatedUser();
                 if (authenticated) {
                     const response = await getEmployees();
-                    const { userId } = authenticated.user;
+                    const { userId } = authenticated;
                     if (response.status) {
-                        const filteredData = response.data.filter(employee => employee._id !== userId);
+                        const filteredData = response.data.filter(employee => employee.id !== userId);
                         setData(filteredData)
                         setLoading(false)
                     }
@@ -91,8 +91,10 @@ const EmployeeList = () => {
         if (confirmDelete) {
             try {
                 const result = await deleteEmployee(employeeId);
+                console.log("result",result)
+                return
                 if (result.status) {
-                    setData((prevData) => prevData.filter((item) => item._id !== employeeId));
+                    setData((prevData) => prevData.filter((item) => item.id !== employeeId));
                 }
             } catch (error) {
                 console.error("Failed to delete employee", error);
@@ -171,7 +173,7 @@ const EmployeeList = () => {
                                                                         <IconButton onClick={() => handleEdit(ele)}>
                                                                             <EditNoteIcon />
                                                                         </IconButton>
-                                                                        <IconButton onClick={() => handleDelete(ele._id)}>
+                                                                        <IconButton onClick={() => handleDelete(ele.id)}>
                                                                             <Delete />
                                                                         </IconButton>
                                                                     </TableCell>

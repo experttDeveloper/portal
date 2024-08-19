@@ -24,7 +24,7 @@ export const attendancePunchout = async (params) => {
 
     let results = await axios({
         method: 'POST',
-        url: "http://localhost:5000/api/user/attendance/punchout",
+        url: "https://brandclever.in/developer/portal/punchin_punchout.php?endpoint=punchOut",
         data: params
     })
         .then(result => result.data)
@@ -41,7 +41,7 @@ export const attendancePunchout = async (params) => {
 export const fetchPunchInData = async (userId) => {
     let results = await axios({
         method: 'GET',
-        url: `http://localhost:5000/api/user/attendance/punchin/${userId}`,
+        url: `https://brandclever.in/developer/portal/punchin_punchout.php?endpoint=totalHour&userID=${userId}`,
     })
         .then(result => result.data)
         .catch(error => {
@@ -57,7 +57,7 @@ export const fetchPunchInData = async (userId) => {
 export const getAttendanceData = async (userId, params) => {
     let results = await axios({
         method: 'GET',
-        url: `http://localhost:5000/api/user/attendance/list/${userId}`,
+        url: `https://brandclever.in/developer/portal/punchin_punchout.php?endpoint=attendanceList&userID=${userId}`,
         params
     })
         .then(result => result.data)

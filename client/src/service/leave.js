@@ -4,7 +4,7 @@ import axios from "axios";
 export const applyLeave = async (params) => {
     let results = await axios({
         method: 'POST',
-        url: "http://localhost:5000/api/user/leave/apply",
+        url: "https://brandclever.in/developer/portal/post_leave.php",
         data: params
     })
         .then(result => result.data)
@@ -20,7 +20,7 @@ export const applyLeave = async (params) => {
 export const getLeave = async (userId) => {
     let results = await axios({
         method: 'GET',
-        url: `http://localhost:5000/api/user/leave/${userId}`,
+        url: `https://developer.brandclever.in/portal/get_leave_user.php?id=${userId}`,
     })
         .then(result => result.data)
         .catch(error => {
@@ -35,7 +35,7 @@ export const getLeave = async (userId) => {
 export const getEmpLeave = async () => {
     let results = await axios({
         method: 'GET',
-        url: `http://localhost:5000/api/employee/leave`,
+        url: `https://developer.brandclever.in/portal/get_all_leaves.php`,
     })
         .then(result => result.data)
         .catch(error => {

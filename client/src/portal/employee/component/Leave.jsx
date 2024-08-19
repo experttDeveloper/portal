@@ -48,9 +48,9 @@ const Leave = () => {
         setLoading(true)
         const authenticated = await authenticatedUser();
         if (authenticated) {
-          const response = await getLeave(authenticated.user.userId);
+          const response = await getLeave(authenticated.userId);
           if (response.status) {
-            setLeaveHistory(response.data)
+            setLeaveHistory(response.leave_data);
             setLoading(false)
           }
         }
@@ -110,28 +110,18 @@ const Leave = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const emailData = {
-      //   to: "tushar.brandclever@gmail.com",
-      //   subject: "test",
-      //   text: "test description"
-      // }
-      // const res =await  sendEmail(emailData)
-      // console.log("res", res)
-      // return;
       if (!validate()) return;
       const authenticated = await authenticatedUser();
-
-      if (authenticated) {
-        const newLeave = {
+        const newFormData = {
           id: leaveHistory.length + 1,
           type: formData.leaveType,
-          startDate: formData.startDate,
+          start_at: formData.startDate,
           reason: formData.reason,
-          endDate: formData.endDate,
+          end_at: formData.endDate,
           status: "pending",
-          userId: authenticated.user.userId
+          user_id: authenticated.userId
         };
-        const result = await applyLeave(newLeave);
+        const result = await applyLeave(newFormData);
         if (result.status) {
           toast.success("Leave submitted successfully!");
           setLoading(true)
@@ -150,10 +140,7 @@ const Leave = () => {
 
           setShowForm(false);
         }
-      } else {
-        toast.error("Please login!");
-        return
-      }
+      
     } catch (error) {
       toast.error("Something went wrong!")
     }
@@ -274,15 +261,15 @@ const Leave = () => {
                     </TableHead>
                     <TableBody>
                       {leaveHistory
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((leave) => {
-                          const startDate = moment(leave.startDate).format('DD-MM-YYYY HH:mm a');
-                          const endDate = moment(leave.endDate).format('DD-MM-YYYY HH:mm a');
-                          const appliedAt = moment(leave.createdAt).format('DD-MM-YYYY HH:mm a');
+                          const startDate = moment(leave.leave_start_at).format('DD-MM-YYYY HH:mm a');
+                          const endDate = moment(leave.leave_end_at).format('DD-MM-YYYY HH:mm a');
+                          const appliedAt = moment(leave.leave_created_at).format('DD-MM-YYYY HH:mm a');
                           return (
                             <TableRow key={leave._id}>
                               <TableCell>{appliedAt}</TableCell>
-                              <TableCell>{leave.type}</TableCell>
+                              <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{startDate}</TableCell>
                               <TableCell>{endDate}</TableCell>
                               <TableCell>

@@ -30,19 +30,37 @@ export default function AttendancePortal() {
         },
     });
 
+    const calculateTotalTime = (sessions) => {
+        let totalHours = 0;
+        let totalMinutes = 0;
+
+        sessions.forEach(session => {
+            if (session.punch_out_time) {
+                const punchInMoment = moment(`${session.punch_in_date} ${session.punch_in_time}`, 'YYYY-MM-DD h:mm:ss a');
+                const punchOutMoment = moment(`${session.punch_out_date} ${session.punch_out_time}`, 'YYYY-MM-DD h:mm:ss a');
+                const duration = moment.duration(punchOutMoment.diff(punchInMoment));
+                totalHours += duration.hours();
+                totalMinutes += duration.minutes();
+            }
+        });
+
+        // Convert total minutes to hours and minutes
+        totalHours += Math.floor(totalMinutes / 60);
+        totalMinutes = totalMinutes % 60;
+
+        return `${totalHours}:${totalMinutes}`;
+    }
 
     useEffect(() => {
         (async () => {
             try {
-
                 setLoading(true);
                 const authenticated = await authenticatedUser();
                 const response = await getAttendanceData(authenticated.userId);
-                if (response) {
-                    const lastData = response?.data[0];
-                    if (lastData) {
-
-                        setTotalHours(lastData?.totalHours);
+                if (response.status) {
+                    const resutlt = calculateTotalTime(response.attendanceList)
+                    if (resutlt) {
+                        setTotalHours(resutlt);
                     }
                 }
             } catch (error) {
@@ -56,18 +74,19 @@ export default function AttendancePortal() {
         const fetchData = async () => {
             const authenticated = await authenticatedUser();
             try {
-                const response = await fetchPunchInData(authenticated.user.userId);
-                if (response.data) {
-                    const punchInDate = moment(`${response.data.punchInDate} ${response.data.punchInTime}`, 'YYYY-MM-DD h:mm:ss a');
-                    const now = moment();
-                    const timeDifference = now.diff(punchInDate, 'seconds');
-
+                const response = await fetchPunchInData(authenticated.userId);
+                if (response.status) {
                     setFormData(prevState => ({
                         ...prevState,
-                        punchIn: response.data
+                        punchIn: response.attendnaceData
                     }));
-                    setElapsedTime(timeDifference);
-                    setIsTimerRunning(true);
+                    if (!response.attendnaceData.punch_out_time) {
+                        const punchInDate = moment(`${response.attendnaceData.punch_in_date} ${response.attendnaceData.punch_in_time}`, 'YYYY-MM-DD h:mm:ss a');
+                        const now = moment();
+                        const timeDifference = now.diff(punchInDate, 'seconds');
+                        setElapsedTime(timeDifference);
+                        setIsTimerRunning(true);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching punch-in data:', error);
@@ -117,15 +136,13 @@ export default function AttendancePortal() {
             setFormData(newFormData);
 
             try {
-                const response = await attendancePunchin({
-                    role: authenticated.role,
-                    userId: authenticated.userId,
+                const newDataForm = {
+                    attendance_id: authenticated.userId,
+                    loginDate: newFormData.punchIn.date,
                     loginTime: newFormData.punchIn.time,
                     loginDay: newFormData.punchIn.day,
-                    loginDate: newFormData.punchIn.date,
-                });
-                console.log("response", response);
-                return;
+                }
+                const response = await attendancePunchin(newDataForm);
                 if (response.status) {
                     toast.success(response.message)
                     setElapsedTime(0);
@@ -148,7 +165,7 @@ export default function AttendancePortal() {
     // Function to handle punch-out
     const handlePunchOut = async () => {
         const currentTime = moment();
-        if (formData.punchIn.punchInTime || formData.punchIn.time) {
+        if (formData.punchIn.punch_in_time || formData.punchIn.time) {
             const punchInTime = moment(formData.punchIn.date + ' ' + formData.punchIn.time, 'YYYY-MM-DD h:mm:ss a');
             const timeDifference = currentTime.diff(punchInTime);
             const duration = moment.duration(timeDifference);
@@ -182,12 +199,13 @@ export default function AttendancePortal() {
 
             const authenticated = await authenticatedUser();
             try {
-                const response = await attendancePunchout({
-                    userId: authenticated.user.userId,
-                    logoutTime: newFormData.punchOut.time,
-                    logoutDay: newFormData.punchOut.day,
+                const newDataForm = {
+                    attendance_id: authenticated.userId,
                     logoutDate: newFormData.punchOut.date,
-                });
+                    logoutTime: newFormData.punchOut.time,
+                    logoutDay: newFormData.punchOut.day
+                }
+                const response = await attendancePunchout(newDataForm);
                 if (response.status) {
                     toast.success(response.message)
                     setIsTimerRunning(false);
@@ -207,7 +225,7 @@ export default function AttendancePortal() {
     };
 
     const formatElapsedTime = (elapsedTime) => {
-        const hours = Math.floor(elapsedTime / 3600);
+        const hours = Math.floor(elapsedTime / 360000);
         const minutes = Math.floor((elapsedTime % 3600) / 60);
         const seconds = elapsedTime % 60;
         return `
@@ -232,7 +250,7 @@ export default function AttendancePortal() {
                         <span className='elapsed_time' dangerouslySetInnerHTML={{ __html: formatElapsedTime(elapsedTime) }}></span>
                     </p>
                 </div>
-                <p className='total_hoirs'>{`Total Hours : ${totalHours ? totalHours : "0"} h`}</p>
+                {/* <p className='total_hoirs'>{`Total Hours : ${totalHours ? totalHours : "0"} h`}</p> */}
                 {/* {formData.punchIn.time && (
                     <div>
                         <p>Punch In Date: {formData.punchIn.date}</p>

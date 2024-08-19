@@ -185,7 +185,6 @@ export default function AddEmp({ useOpen, useLoading }) {
 
             if (authenticated) {
                 const newEmp = {
-                    firstName: '',
                     firstName: formData.firstName,
                     lastName: formData.lastName,
                     email: formData.email,
@@ -196,14 +195,13 @@ export default function AddEmp({ useOpen, useLoading }) {
                     gender: formData.gender,
                     dob: formData.dob,
                     joiningDate: formData.joiningDate,
-                    address: {
-                        currentAddress: formData.currentAddress,
-                        permanentAddress: formData.permanentAddress,
-                    },
+                    currentAddress: formData.currentAddress,
+                    username: formData.email,
+                    permanentAddress: formData.permanentAddress,
                 };
                 setLoading(true);
                 const result = await addEmployee(newEmp);
-                if (result.status) {
+                if (result.status==="success") {
                     toast.success(result.message);
                     handleResetForm();
                     setShowForm(false)
@@ -227,185 +225,185 @@ export default function AddEmp({ useOpen, useLoading }) {
     return (
         <div>
             <Paper style={{ padding: '1rem', marginTop: '1rem' }}>
-            <Box component="form" onSubmit={handleSubmit} sx={{ marginBottom: '2rem' }} className='add_team_member_form'>
-                <Grid container spacing={2}>
-                    <Grid item md={6}>
-                        <TextField
-                            label="First Name"
-                            fullWidth
-                            margin="normal"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Last Name"
-                            fullWidth
-                            margin="normal"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Email"
-                            type="email"
-                            fullWidth
-                            margin="normal"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            error={!!errors.email}
-                            helperText={errors.email}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Password"
-                            type="password"
-                            fullWidth
-                            margin="normal"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            error={!!errors.password}
-                            helperText={errors.password}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Phone Number"
-                            fullWidth
-                            margin="normal"
-                            name="phoneNumber"
-                            value={formData.phoneNumber}
-                            onChange={handleInputChange}
-                            error={!!errors.phoneNumber}
-                            helperText={errors.phoneNumber}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Current Address"
-                            fullWidth
-                            margin="normal"
-                            name="currentAddress"
-                            value={formData.currentAddress}
-                            onChange={handleInputChange}
-                            error={!!errors.currentAddress}
-                            helperText={errors.currentAddress}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Permanent Address"
-                            fullWidth
-                            margin="normal"
-                            name="permanentAddress"
-                            value={formData.permanentAddress}
-                            onChange={handleInputChange}
-                            error={!!errors.permanentAddress}
-                            helperText={errors.permanentAddress}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            label="Profile"
-                            fullWidth
-                            margin="normal"
-                            name="profile"
-                            value={formData.profile}
-                            onChange={handleInputChange}
-                            error={!!errors.profile}
-                            helperText={errors.profile}
-                        />
-                    </Grid>
-                    <Grid item md={6}>
-                        <FormControl fullWidth margin="normal" >
-                            <DatePicker
-                                label="Joining Date"
-                                value={formData.joiningDate}
-                                onChange={handleDateChange('joiningDate')}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        margin="normal"
-                                        error={!!errors.joiningDate}
-                                        helperText={errors.joiningDate}
-                                    />
-                                )}
-                                minDate={new Date()}
-                            />
-                            {errors.joiningDate && <FormHelperText>{errors.joiningDate}</FormHelperText>}
-                        </FormControl>
-                    </Grid>
-                    <Grid item md={6}>
-                        <FormControl fullWidth margin="normal" error={!!errors.role}>
-                            <InputLabel>Role</InputLabel>
-                            <Select
-                                label="Role"
-                                name="role"
-                                value={formData.role}
+                <Box component="form" onSubmit={handleSubmit} sx={{ marginBottom: '2rem' }} className='add_team_member_form'>
+                    <Grid container spacing={2}>
+                        <Grid item md={6}>
+                            <TextField
+                                label="First Name"
+                                fullWidth
+                                margin="normal"
+                                name="firstName"
+                                value={formData.firstName}
                                 onChange={handleInputChange}
-                            >
-                                <MenuItem value="emp">Employee</MenuItem>
-                                <MenuItem value="HR">HR</MenuItem>
-                                <MenuItem value="manager">Manager</MenuItem>
-                                {/* Add more roles if needed */}
-                            </Select>
-                            {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item md={6}>
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel>Gender</InputLabel>
-                            <Select
-                                label="Gender"
-                                name="gender"
-                                value={formData.gender}
-                                onChange={handleInputChange}
-                            >
-                                <MenuItem value="Male">Male</MenuItem>
-                                <MenuItem value="Female">Female</MenuItem>
-                                <MenuItem value="Other">Other</MenuItem>
-                                {/* Add more gender options if needed */}
-                            </Select>
-                            {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item md={6}>
-                        <FormControl fullWidth margin="normal" >
-                            <DatePicker
-                                label="Date of Birth"
-                                value={formData.dob}
-                                onChange={handleDateChange('dob')}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        margin="normal"
-                                        error={!!errors.dob}
-                                        helperText={errors.dob}
-                                    />
-                                )}
-                                maxDate={new Date()}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName}
                             />
-                            {errors.dob && <FormHelperText>{errors.dob}</FormHelperText>}
-                        </FormControl>
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Last Name"
+                                fullWidth
+                                margin="normal"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleInputChange}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                margin="normal"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                error={!!errors.email}
+                                helperText={errors.email}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Password"
+                                type="password"
+                                fullWidth
+                                margin="normal"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                error={!!errors.password}
+                                helperText={errors.password}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Phone Number"
+                                fullWidth
+                                margin="normal"
+                                name="phoneNumber"
+                                value={formData.phoneNumber}
+                                onChange={handleInputChange}
+                                error={!!errors.phoneNumber}
+                                helperText={errors.phoneNumber}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Current Address"
+                                fullWidth
+                                margin="normal"
+                                name="currentAddress"
+                                value={formData.currentAddress}
+                                onChange={handleInputChange}
+                                error={!!errors.currentAddress}
+                                helperText={errors.currentAddress}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Permanent Address"
+                                fullWidth
+                                margin="normal"
+                                name="permanentAddress"
+                                value={formData.permanentAddress}
+                                onChange={handleInputChange}
+                                error={!!errors.permanentAddress}
+                                helperText={errors.permanentAddress}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <TextField
+                                label="Profile"
+                                fullWidth
+                                margin="normal"
+                                name="profile"
+                                value={formData.profile}
+                                onChange={handleInputChange}
+                                error={!!errors.profile}
+                                helperText={errors.profile}
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <FormControl fullWidth margin="normal" >
+                                <DatePicker
+                                    label="Joining Date"
+                                    value={formData.joiningDate}
+                                    onChange={handleDateChange('joiningDate')}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            margin="normal"
+                                            error={!!errors.joiningDate}
+                                            helperText={errors.joiningDate}
+                                        />
+                                    )}
+                                    minDate={new Date()}
+                                />
+                                {errors.joiningDate && <FormHelperText>{errors.joiningDate}</FormHelperText>}
+                            </FormControl>
+                        </Grid>
+                        <Grid item md={6}>
+                            <FormControl fullWidth margin="normal" error={!!errors.role}>
+                                <InputLabel>Role</InputLabel>
+                                <Select
+                                    label="Role"
+                                    name="role"
+                                    value={formData.role}
+                                    onChange={handleInputChange}
+                                >
+                                    <MenuItem value="emp">Employee</MenuItem>
+                                    <MenuItem value="HR">HR</MenuItem>
+                                    <MenuItem value="manager">Manager</MenuItem>
+                                    {/* Add more roles if needed */}
+                                </Select>
+                                {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item md={6}>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel>Gender</InputLabel>
+                                <Select
+                                    label="Gender"
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleInputChange}
+                                >
+                                    <MenuItem value="Male">Male</MenuItem>
+                                    <MenuItem value="Female">Female</MenuItem>
+                                    <MenuItem value="Other">Other</MenuItem>
+                                    {/* Add more gender options if needed */}
+                                </Select>
+                                {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item md={6}>
+                            <FormControl fullWidth margin="normal" >
+                                <DatePicker
+                                    label="Date of Birth"
+                                    value={formData.dob}
+                                    onChange={handleDateChange('dob')}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            margin="normal"
+                                            error={!!errors.dob}
+                                            helperText={errors.dob}
+                                        />
+                                    )}
+                                    maxDate={new Date()}
+                                />
+                                {errors.dob && <FormHelperText>{errors.dob}</FormHelperText>}
+                            </FormControl>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Button type="submit" variant="contained" color="primary" className='apply_leave' fullWidth disabled={loading}>
-                    Add Team Member
-                </Button>
-            </Box>
+                    <Button type="submit" variant="contained" color="primary" className='apply_leave' fullWidth disabled={loading}>
+                        Add Team Member
+                    </Button>
+                </Box>
             </Paper>
         </div>
     )

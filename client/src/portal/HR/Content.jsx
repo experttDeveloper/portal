@@ -7,6 +7,7 @@ import ChangePassword from '../../components/ChangePassword';
 import Setting from '../../components/Setting';
 import EmployeeList from './component/EmpList';
 import EmpLeave from './component/EmpLeave';
+import EmpAttendance from './component/EmpAttendance';
 
 const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
 
@@ -27,6 +28,8 @@ const Content = ({ selectedItem, onLogout, onMenuItemClick }) => {
                 return <EmployeeList />;
             case 'empleave':
                 return <EmpLeave />;
+            case 'empattendance':
+                return <EmpAttendance/>;
 
             default:
                 return "test"; // Default content

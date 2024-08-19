@@ -202,12 +202,12 @@ export default function AddEmp({ useOpen, useLoading }) {
                 setLoading(true);
                 const result = await addEmployee(newEmp);
                 if (result.status===true) {
-                    toast.success(result.message);
+                    toast.success("Employee added successfully.");
                     handleResetForm();
                     setShowForm(false)
                     setLoading(false);
                 } else {
-                    toast.error(result.message);
+                    toast.error("something went wrong.");
                     setLoading(false);
                 }
 

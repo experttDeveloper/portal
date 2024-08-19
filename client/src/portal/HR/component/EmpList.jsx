@@ -11,6 +11,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Delete, EditAttributes } from '@mui/icons-material';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ViewEditEmp from './ViewEditEmp';
+import { toast } from 'react-toastify';
 
 const EmployeeList = () => {
 
@@ -44,13 +45,15 @@ const EmployeeList = () => {
 
     const handleSave = async (updatedData) => {
         try {
-            const response = await updateUser(selectedEmployee.id, updatedData);
+            const response = await updateUser({ ...updatedData, username: "emp" });
+            console.log("resuleeee", response)
             if (response.status) {
                 // Refresh the employee list
                 const updatedEmployees = data.map(emp => emp.id === selectedEmployee.id ? { ...emp, ...updatedData } : emp);
                 setData(updatedEmployees);
                 setViewMode('view');
                 setSelectedEmployee(null);
+                toast.success(response.message)
             }
         } catch (error) {
             console.log("error", error);
@@ -177,11 +180,11 @@ const EmployeeList = () => {
                                                                         <IconButton onClick={() => handleEdit(ele)}>
                                                                             <EditNoteIcon />
                                                                         </IconButton>
-                                                                        <IconButton  onClick={() => handleDelete(ele.id)}>
+                                                                        <IconButton onClick={() => handleDelete(ele.id)}>
                                                                             <Delete />
                                                                         </IconButton>
                                                                     </TableCell>
-                                                                    
+
                                                                 </TableRow>
                                                             )
                                                         })}

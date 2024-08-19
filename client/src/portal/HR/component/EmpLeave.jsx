@@ -32,7 +32,6 @@ const EmpLeave = () => {
                 const authenticated = await authenticatedUser();
                 if (authenticated) {
                     const response = await getEmpLeave();
-                    console.log("response",response);
                     if (response.status) {
                         setData(response.data)
                         setLoading(false)

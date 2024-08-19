@@ -17,8 +17,8 @@ const ViewEditEmp = ({ employee, onClose, onSave, viewMode }) => {
                 email: employee.email || '',
                 password: '', // Default empty, as you might want to handle password separately
                 phoneNumber: employee.phoneNumber || '',
-                currentAddress: employee.address?.currentAddress || '',
-                permanentAddress: employee.address?.permanentAddress || '',
+                currentAddress: employee.currentAddress || '',
+                permanentAddress: employee.permanentAddress || '',
                 profile: employee.profile || '',
                 joiningDate: employee.joiningDate ? new Date(employee.joiningDate) : null,
                 role: employee.role || '',

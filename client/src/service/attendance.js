@@ -70,3 +70,19 @@ export const getAttendanceData = async (userId, params) => {
     return results;
 };
 
+
+export const getEmpAttendance = async () => {
+    let results = await axios({
+        method: 'GET',
+        url: `https://brandclever.in/developer/portal/get_all_attendance.php`
+    })
+        .then(result => result.data)
+        .catch(error => {
+            return {
+                status: "error",
+                message: error.message
+            };
+        });
+    return results;
+};
+
